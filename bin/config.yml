@@ -1,0 +1,8678 @@
+border: 10000000 #граница мира
+BungeeCord: false #поддерживать ли BungeeCord
+hub_server: "lobby"
+TAB: false #Поддержка плагина TAB (на 1.17 нет) - будет отображать уровень игрока в ТАБе
+can_place_blocks_out_of_islands: true #возможно ли ставить блоки за островом
+disable_mechanisms: true #выключить механизмы
+block_limit: 5000 #лимит блоков на игрока до перезагрузки
+autobuild_limit: 100 #лимит снежков автостроителей на игрока
+delete_after_days: 31 #через сколько дней удалять остров
+island_gen_prob: 0.05 #какова вероятность обнаружить остров при прогрузке чанка (от 0 до 1)
+give_money_on_new_lvl: true #выдавать монеты при получении нового уровня
+multiple_money_give: 5 #При получении нового уровня N, игрок получит 5*N монет
+money_complete_all_quests: 100 #Сколько монет игрок получит при выполнении всех ежедневных заданий
+auction_cmd: "/ah" #Какую команду выполнять при клике на "Аукционы" у ГИДА
+quests_prob: 0.2 #Вероятность появления каждого ежедневного квеста из списка
+boss_prob: 0.6 #Вероятность появления каждого босса из списка
+display_lvl: true #Отоброжать уровень игрока в чате
+
+#Ежедневные квесты у ГИДА за монеты
+#Список материалов: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+#- "IRON_INGOT - тип материала, 15 - среднее количество, 5 - разброс от среднего количества, 50 - цена"
+quests:
+- "IRON_INGOT, 15, 5, 40"
+- "DIAMOND, 30, 7, 50"
+- "OAK_SAPLING, 3, 1, 5"
+- "EMERALD, 10, 3, 7"
+
+#Ежедневные боссы у ГИДА
+#Список существ: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/entity/EntityType.html
+#Все параметры боссов будут выбраны случайно
+boss_entities:
+- "ZOMBIE, Зомби"
+- "IRON_GOLEM, Железный голем"
+- "GIANT, Зомби-гигант"
+- "SKELETON, Скелет"
+
+#Магазин у ГИДА
+#WATER_BUCKET - предмет, 1 - количество, 50 - цена
+#SNOWBALL - предмет, 1 - количество, 30 - цена, §5Авто-строитель - название
+shop:
+- "WATER_BUCKET, 1, 50"
+- "LAVA_BUCKET, 1, 50"
+- "OAK_SAPLING, 2, 20"
+- "POTATO, 4, 30"
+- "SNOWBALL, 1, 30, §5Авто-строитель"
+- "COMPASS, 1, 50"
+- "ANVIL, 1, 250"
+- "MOJANG_BANNER_PATTERN, 1, 800, §5Мгновенная телепортация на остров"
+- "FLINT, 1, 50"
+
+#Список сообщений, выводимых рандомно при клике на ГИДА
+guide_messages:
+- '&1Для добычи булыжника тебе необходимо построить генератор булыжника, используя
+  ведро воды и ведро лавы. Скорее всего на твоём острове уже сгенерирован генератор
+  булыжника.'
+- '&2После вырубки деревьев не забывай сажать саженцы, выпадающие с них!'
+- '&3Для получения большего количества ресурсов тебе необходимо путешествовать по
+  миру и находить другие острова!'
+- '&4Чем выше редкость найденного острова, тем больше ресурсов ты можешь получить
+  с него!'
+- '&5Твоё значение силы отражает то, во сколько раз больше урона ты будешь наносить
+  врагам.'
+- '&6Твоё значение живучести отражает то, во сколько раз меньше урона ты будешь получать.'
+- '&7Для повышения уровня просто получай стандартный опыт.'
+- '&8Для телепортации на острова игроков тебе нужно использовать пространственный
+  портал (портал в Ад).'
+- '&9Максимальное количество существ на острове - 50. При привышении лимита существ,
+  они начнут удаляться.'
+- '&eЕсли вы застряли где-то, то для возвращения на остров вам нужно либо дождаться
+  перезагрузки, либо погибнуть, введя &c/suicide&e.'
+- '&bДля передачи монет кликни ПКМ по игроку.'
+- '&fЧем выше твой уровень, тем больше будет здоровья у заспавненных около тебя мобов
+  и выпадаемых с ним монет'
+  
+#Процент вещей, теряемых при смерти. player - дефолтное значение.
+#Чтобы уменьшить, дайте игроку право API.vip/API.vip+/.../API.glav (можно плагином PermissionsEx)
+loose_percents:
+  player: 30
+  vip: 25
+  vip+: 20
+  mvp: 15
+  mvp+: 10
+  premium: 5
+  helper: 5
+  moder: 5
+  admin: 5
+  youtube: 5
+  glav: 5
+
+#Тут вы кодируете типы островов, islands_types.player - дефолтный остров игрока
+#В islands_types.[тип].layers вы фактически расписываете из каких слоёв состоит ваш остров
+#ПРИМЕР:
+#
+#'3': - третий слой сверху
+#    materials: - список блоков, встречающихся на слое
+#    - ==: org.bukkit.inventory.ItemStack
+#      v: 2578
+#      type: DIRT
+#    - ==: org.bukkit.inventory.ItemStack
+#      v: 2578
+#      type: COARSE_DIRT
+#    - ==: org.bukkit.inventory.ItemStack
+#      v: 2578
+#      type: STONE
+#    probs: - вероятности появления соответствующих блоков
+#    - 3.0
+#    - 1.0
+#    - 0.2
+#
+#число блоков в materials должно быть равно числу вероятностей в probs!
+#В probs необязательно, чтобы сумма вероятностей была равна 1, т.к. вероятность появления
+#блока определяется отношением его числа вероятности ко всей сумме вероятностей на слое
+#
+#entities - мобы, спавнющиеся на острове
+#Параметр entities.[номер].prob определяет вероятность появления этого моба
+#entities.[номер].abilities содержит способности мобов, пока существует только 1 способность - ANTIFIRE (не гореть под солнцем)
+#
+#Основной остров может сгенерироваться с несколькими дополнительными островами
+#only_main_island_structures - структуры, генерируемые на главном острове
+#other_structures - структуры, генерируемые на дополнительных островах
+#Виды структур: PORTAL, COBBLESTONE_GENERATOR, CHEST, TREE-1..8, BLOCK
+#Пример: - BLOCK, 0.8, SWEET_BERRY_BUSH //Сгенерировать блок SWEET_BERRY_BUSH (куст сладкой ягоды) с вероятностью 0.8
+#
+#ВАЖНО!
+#Все острова ниже, кроме player, нумеряются по типу x-y (1-1, 1-2, .., 10-1), x - это уровень редкости острова, y - порядковый номер.
+#Уровень редкости - целое число от 1 до 10, добавляя новый остров следите за порядковым номером!
+islands_types:
+  player:
+    layers:
+      '1':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: GRASS_BLOCK
+        probs:
+        - 1.0
+      '2':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: DIRT
+        probs:
+        - 1.0
+      '3':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: DIRT
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COARSE_DIRT
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        probs:
+        - 3.0
+        - 1.0
+        - 0.2
+      '4':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: DIRT
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COARSE_DIRT
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        probs:
+        - 0.8
+        - 0.8
+        - 1.0
+      '5':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: ANDESITE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: GRANITE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: DIORITE
+        probs:
+        - 5.0
+        - 1.0
+        - 0.5
+        - 0.5
+        - 0.5
+      '6':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: ANDESITE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: GRANITE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: DIORITE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: IRON_ORE
+        probs:
+        - 4.0
+        - 1.0
+        - 0.5
+        - 0.5
+        - 0.5
+        - 1.0
+      '7':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: ANDESITE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: GRANITE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: DIORITE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: IRON_ORE
+        probs:
+        - 3.5
+        - 0.8
+        - 0.3
+        - 0.3
+        - 0.3
+        - 1.3
+      '8':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: IRON_ORE
+        probs:
+        - 3.0
+        - 0.8
+        - 1.5
+      '9':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: IRON_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: DIAMOND_ORE
+        probs:
+        - 2.5
+        - 1.0
+        - 0.5
+    entities: {}
+    other_structures:
+    - CHEST, 0.5
+    - TREE-1, 0.8
+    - TREE-1, 0.8
+    - TREE-1, 0.8
+    - TREE-1, 0.8
+    - TREE-1, 0.8
+    - BLOCK, 0.1, ANVIL
+    - BLOCK, 0.8, SWEET_BERRY_BUSH
+    - BLOCK, 0.8, SWEET_BERRY_BUSH
+    - BLOCK, 0.8, SWEET_BERRY_BUSH
+    - BLOCK, 0.3, ROSE_BUSH
+    - BLOCK, 0.3, PEONY
+    - BLOCK, 0.3, LILAC
+    - BLOCK, 0.7, GRASS
+    - BLOCK, 0.7, GRASS
+    - BLOCK, 0.7, GRASS
+    - BLOCK, 0.7, GRASS
+    - BLOCK, 0.7, GRASS
+    - BLOCK, 0.7, GRASS
+    - BLOCK, 0.3, TALL_GRASS
+    - BLOCK, 0.3, TALL_GRASS
+    - BLOCK, 0.3, TALL_GRASS
+    - BLOCK, 0.5, FERN
+    only_main_island_structures:
+    - COBBLESTONE_GENERATOR, 1.0
+    - PORTAL, 1.0
+    - CHEST, 1.0
+    - BLOCK, 1.0, ANVIL
+    - TREE-1, 0.8
+    - TREE-1, 0.8
+    - TREE-1, 0.8
+    - TREE-1, 0.8
+    - BLOCK, 0.8, SWEET_BERRY_BUSH
+    - BLOCK, 0.8, SWEET_BERRY_BUSH
+    - BLOCK, 0.8, SWEET_BERRY_BUSH
+    - BLOCK, 0.3, DANDELION
+    - BLOCK, 0.3, POPPY
+    - BLOCK, 0.3, DANDELION
+    - BLOCK, 0.3, POPPY
+    - BLOCK, 0.5, FERN
+    - BLOCK, 0.2, BLUE_ORCHID
+    - BLOCK, 0.2, ALLIUM
+    - BLOCK, 0.2, AZURE_BLUET
+    - BLOCK, 0.2, RED_TULIP
+    - BLOCK, 0.2, ORANGE_TULIP
+    - BLOCK, 0.2, WHITE_TULIP
+    - BLOCK, 0.2, PINK_TULIP
+    - BLOCK, 0.7, GRASS
+    - BLOCK, 0.7, GRASS
+    - BLOCK, 0.7, GRASS
+    - BLOCK, 0.7, GRASS
+    - BLOCK, 0.7, GRASS
+    - BLOCK, 0.3, TALL_GRASS
+    - BLOCK, 0.3, TALL_GRASS
+    - BLOCK, 0.3, TALL_GRASS
+  boss:
+    layers:
+      '1':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: PODZOL
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: CRIMSON_NYLIUM
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: WARPED_NYLIUM
+        probs:
+        - 1.0
+        - 1.0
+        - 1.0
+      '2':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COARSE_DIRT
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: DIRT
+        probs:
+        - 1.0
+        - 0.2
+    entities: {}
+    other_structures:
+    - TREE-7, 0.8
+    - TREE-8, 0.8
+    only_main_island_structures:
+    - PORTAL, 1.0
+    - TREE-7, 0.8
+    - TREE-7, 0.8
+    - TREE-8, 0.8
+    - TREE-8, 0.8
+  1-1:
+    layers:
+      '1':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: GRASS_BLOCK
+        probs:
+        - 1.0
+      '2':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: DIRT
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: CLAY
+        probs:
+        - 0.5
+        - 0.5
+        - 0.3
+      '3':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: DIRT
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        probs:
+        - 1.0
+        - 1.0
+        - 0.5
+      '4':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: DIRT
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: IRON_ORE
+        probs:
+        - 1.0
+        - 1.0
+        - 0.5
+        - 0.2
+      '5':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: IRON_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: REDSTONE_ORE
+        probs:
+        - 2.0
+        - 0.5
+        - 0.3
+        - 0.2
+      '6':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: IRON_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: REDSTONE_ORE
+        probs:
+        - 2.0
+        - 0.6
+        - 0.4
+        - 0.3
+      '7':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: IRON_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: REDSTONE_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: DIAMOND_ORE
+        probs:
+        - 2.0
+        - 0.5
+        - 0.3
+        - 0.2
+        - 0.02
+      '8':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: IRON_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: REDSTONE_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: DIAMOND_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COBWEB
+        probs:
+        - 2.0
+        - 0.5
+        - 0.3
+        - 0.2
+        - 0.1
+        - 0.1
+      '9':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: IRON_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: REDSTONE_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: DIAMOND_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COBWEB
+        probs:
+        - 2.0
+        - 0.5
+        - 0.3
+        - 0.2
+        - 0.1
+        - 0.15
+      '10':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: IRON_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: REDSTONE_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: DIAMOND_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COBWEB
+        probs:
+        - 2.0
+        - 0.5
+        - 0.3
+        - 0.2
+        - 0.1
+        - 0.2
+    entities:
+      '1':
+        hp: 20
+        damage: 1
+        type: COW
+        prob: 0.6
+        abilities: []
+      '2':
+        hp: 20
+        damage: 1
+        type: COW
+        prob: 0.6
+        abilities: []
+      '3':
+        hp: 20
+        damage: 1
+        type: CHICKEN
+        prob: 0.6
+        abilities: []
+      '4':
+        hp: 20
+        damage: 1
+        type: SHEEP
+        prob: 0.6
+        abilities: []
+      '5':
+        hp: 20
+        damage: 1
+        type: SHEEP
+        prob: 0.6
+        abilities: []
+      '6':
+        hp: 20
+        damage: 1
+        type: PIG
+        prob: 0.6
+        abilities: []
+    other_structures:
+    - CHEST, 0.2
+    - TREE-1, 0.4
+    - TREE-2, 0.4
+    - TREE-3, 0.4
+    - TREE-1, 0.4
+    - BLOCK, 0.8, SWEET_BERRY_BUSH
+    - BLOCK, 0.8, SWEET_BERRY_BUSH
+    - BLOCK, 0.3, ROSE_BUSH
+    - BLOCK, 0.3, PEONY
+    - BLOCK, 0.3, LILAC
+    - BLOCK, 0.7, GRASS
+    - BLOCK, 0.7, GRASS
+    - BLOCK, 0.7, GRASS
+    - BLOCK, 0.7, GRASS
+    - BLOCK, 0.7, GRASS
+    - BLOCK, 0.7, GRASS
+    - BLOCK, 0.3, TALL_GRASS
+    - BLOCK, 0.3, TALL_GRASS
+    - BLOCK, 0.3, TALL_GRASS
+    - BLOCK, 0.5, FERN
+    only_main_island_structures:
+    - CHEST, 1.0
+    - TREE-1, 0.4
+    - TREE-2, 0.4
+    - TREE-3, 0.4
+    - TREE-1, 0.4
+    - BLOCK, 0.8, SWEET_BERRY_BUSH
+    - BLOCK, 0.8, SWEET_BERRY_BUSH
+    - BLOCK, 0.3, DANDELION
+    - BLOCK, 0.3, POPPY
+    - BLOCK, 0.3, DANDELION
+    - BLOCK, 0.3, POPPY
+    - BLOCK, 0.5, FERN
+    - BLOCK, 0.2, BLUE_ORCHID
+    - BLOCK, 0.2, ALLIUM
+    - BLOCK, 0.2, AZURE_BLUET
+    - BLOCK, 0.2, RED_TULIP
+    - BLOCK, 0.2, ORANGE_TULIP
+    - BLOCK, 0.2, WHITE_TULIP
+    - BLOCK, 0.2, PINK_TULIP
+    - BLOCK, 0.7, GRASS
+    - BLOCK, 0.7, GRASS
+    - BLOCK, 0.7, GRASS
+    - BLOCK, 0.7, GRASS
+    - BLOCK, 0.7, GRASS
+    - BLOCK, 0.3, TALL_GRASS
+    - BLOCK, 0.3, TALL_GRASS
+    - BLOCK, 0.3, TALL_GRASS
+  1-2:
+    layers:
+      '1':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: GRASS_BLOCK
+        probs:
+        - 1.0
+      '2':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: DIRT
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: CLAY
+        probs:
+        - 0.5
+        - 0.5
+        - 0.3
+      '3':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: DIRT
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        probs:
+        - 1.0
+        - 1.0
+        - 0.5
+      '4':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: DIRT
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: IRON_ORE
+        probs:
+        - 1.0
+        - 1.0
+        - 0.5
+        - 0.2
+      '5':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: IRON_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: REDSTONE_ORE
+        probs:
+        - 2.0
+        - 0.5
+        - 0.3
+        - 0.2
+      '6':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: IRON_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: REDSTONE_ORE
+        probs:
+        - 2.0
+        - 0.6
+        - 0.4
+        - 0.3
+      '7':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: IRON_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: REDSTONE_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: DIAMOND_ORE
+        probs:
+        - 2.0
+        - 0.5
+        - 0.3
+        - 0.2
+        - 0.02
+      '8':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: IRON_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: REDSTONE_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: DIAMOND_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COBWEB
+        probs:
+        - 2.0
+        - 0.5
+        - 0.3
+        - 0.2
+        - 0.1
+        - 0.1
+      '9':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: IRON_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: REDSTONE_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: DIAMOND_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COBWEB
+        probs:
+        - 2.0
+        - 0.5
+        - 0.3
+        - 0.2
+        - 0.1
+        - 0.15
+      '10':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: IRON_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: REDSTONE_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: DIAMOND_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COBWEB
+        probs:
+        - 2.0
+        - 0.5
+        - 0.3
+        - 0.2
+        - 0.1
+        - 0.2
+    entities:
+      '1':
+        hp: 20
+        damage: 1
+        type: HORSE
+        prob: 0.6
+        abilities: []
+      '2':
+        hp: 20
+        damage: 1
+        type: HORSE
+        prob: 0.6
+        abilities: []
+      '3':
+        hp: 20
+        damage: 1
+        type: MULE
+        prob: 0.6
+        abilities: []
+      '4':
+        hp: 20
+        damage: 1
+        type: DONKEY
+        prob: 0.6
+        abilities: []
+      '5':
+        hp: 20
+        damage: 1
+        type: DONKEY
+        prob: 0.6
+        abilities: []
+    other_structures:
+    - CHEST, 0.2
+    - TREE-1, 0.4
+    - TREE-2, 0.4
+    - TREE-3, 0.4
+    - TREE-1, 0.4
+    - BLOCK, 0.8, SWEET_BERRY_BUSH
+    - BLOCK, 0.8, SWEET_BERRY_BUSH
+    - BLOCK, 0.3, ROSE_BUSH
+    - BLOCK, 0.3, PEONY
+    - BLOCK, 0.3, LILAC
+    - BLOCK, 0.7, GRASS
+    - BLOCK, 0.7, GRASS
+    - BLOCK, 0.7, GRASS
+    - BLOCK, 0.7, GRASS
+    - BLOCK, 0.7, GRASS
+    - BLOCK, 0.7, GRASS
+    - BLOCK, 0.3, TALL_GRASS
+    - BLOCK, 0.3, TALL_GRASS
+    - BLOCK, 0.3, TALL_GRASS
+    - BLOCK, 0.5, FERN
+    only_main_island_structures:
+    - CHEST, 1.0
+    - TREE-1, 0.4
+    - TREE-2, 0.4
+    - TREE-3, 0.4
+    - TREE-1, 0.4
+    - BLOCK, 0.8, SWEET_BERRY_BUSH
+    - BLOCK, 0.8, SWEET_BERRY_BUSH
+    - BLOCK, 0.3, DANDELION
+    - BLOCK, 0.3, POPPY
+    - BLOCK, 0.3, DANDELION
+    - BLOCK, 0.3, POPPY
+    - BLOCK, 0.5, FERN
+    - BLOCK, 0.2, BLUE_ORCHID
+    - BLOCK, 0.2, ALLIUM
+    - BLOCK, 0.2, AZURE_BLUET
+    - BLOCK, 0.2, RED_TULIP
+    - BLOCK, 0.2, ORANGE_TULIP
+    - BLOCK, 0.2, WHITE_TULIP
+    - BLOCK, 0.2, PINK_TULIP
+    - BLOCK, 0.7, GRASS
+    - BLOCK, 0.7, GRASS
+    - BLOCK, 0.7, GRASS
+    - BLOCK, 0.7, GRASS
+    - BLOCK, 0.7, GRASS
+    - BLOCK, 0.3, TALL_GRASS
+    - BLOCK, 0.3, TALL_GRASS
+    - BLOCK, 0.3, TALL_GRASS
+  1-3:
+    layers:
+      '1':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: GRASS_BLOCK
+        probs:
+        - 1.0
+      '2':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: DIRT
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: CLAY
+        probs:
+        - 0.5
+        - 0.5
+        - 0.3
+      '3':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: DIRT
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        probs:
+        - 1.0
+        - 1.0
+        - 0.5
+      '4':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: DIRT
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: IRON_ORE
+        probs:
+        - 1.0
+        - 1.0
+        - 0.5
+        - 0.2
+      '5':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: IRON_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: REDSTONE_ORE
+        probs:
+        - 2.0
+        - 0.5
+        - 0.3
+        - 0.2
+      '6':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: IRON_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: REDSTONE_ORE
+        probs:
+        - 2.0
+        - 0.6
+        - 0.4
+        - 0.3
+      '7':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: IRON_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: REDSTONE_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: DIAMOND_ORE
+        probs:
+        - 2.0
+        - 0.5
+        - 0.3
+        - 0.2
+        - 0.02
+      '8':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: IRON_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: REDSTONE_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: DIAMOND_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COBWEB
+        probs:
+        - 2.0
+        - 0.5
+        - 0.3
+        - 0.2
+        - 0.1
+        - 0.1
+      '9':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: IRON_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: REDSTONE_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: DIAMOND_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COBWEB
+        probs:
+        - 2.0
+        - 0.5
+        - 0.3
+        - 0.2
+        - 0.1
+        - 0.15
+      '10':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: IRON_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: REDSTONE_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: DIAMOND_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COBWEB
+        probs:
+        - 2.0
+        - 0.5
+        - 0.3
+        - 0.2
+        - 0.1
+        - 0.2
+    entities:
+      '1':
+        hp: 20
+        damage: 1
+        type: BEE
+        prob: 0.8
+        abilities: []
+      '2':
+        hp: 20
+        damage: 1
+        type: BEE
+        prob: 0.8
+        abilities: []
+      '3':
+        hp: 20
+        damage: 1
+        type: BEE
+        prob: 0.8
+        abilities: []
+      '4':
+        hp: 20
+        damage: 1
+        type: BEE
+        prob: 0.8
+        abilities: []
+      '5':
+        hp: 30
+        damage: 1.0
+        type: SLIME
+        prob: 0.1
+        abilities: []
+    other_structures:
+    - CHEST, 0.2
+    - TREE-1, 0.4
+    - TREE-2, 0.4
+    - TREE-3, 0.4
+    - TREE-1, 0.4
+    - BLOCK, 0.6, BEE_NEST
+    - BLOCK, 0.3, ROSE_BUSH
+    - BLOCK, 0.3, PEONY
+    - BLOCK, 0.3, LILAC
+    - BLOCK, 0.7, GRASS
+    - BLOCK, 0.7, GRASS
+    - BLOCK, 0.7, GRASS
+    - BLOCK, 0.7, GRASS
+    - BLOCK, 0.7, GRASS
+    - BLOCK, 0.7, GRASS
+    - BLOCK, 0.3, TALL_GRASS
+    - BLOCK, 0.3, TALL_GRASS
+    - BLOCK, 0.3, TALL_GRASS
+    - BLOCK, 0.5, FERN
+    only_main_island_structures:
+    - CHEST, 1.0
+    - TREE-1, 0.4
+    - TREE-2, 0.4
+    - TREE-3, 0.4
+    - TREE-1, 0.4
+    - BLOCK, 0.6, BEE_NEST
+    - BLOCK, 0.6, BEE_NEST
+    - BLOCK, 0.3, DANDELION
+    - BLOCK, 0.3, POPPY
+    - BLOCK, 0.3, DANDELION
+    - BLOCK, 0.3, POPPY
+    - BLOCK, 0.5, FERN
+    - BLOCK, 0.2, BLUE_ORCHID
+    - BLOCK, 0.2, ALLIUM
+    - BLOCK, 0.2, AZURE_BLUET
+    - BLOCK, 0.2, RED_TULIP
+    - BLOCK, 0.2, ORANGE_TULIP
+    - BLOCK, 0.2, WHITE_TULIP
+    - BLOCK, 0.2, PINK_TULIP
+    - BLOCK, 0.7, GRASS
+    - BLOCK, 0.7, GRASS
+    - BLOCK, 0.7, GRASS
+    - BLOCK, 0.7, GRASS
+    - BLOCK, 0.7, GRASS
+    - BLOCK, 0.3, TALL_GRASS
+    - BLOCK, 0.3, TALL_GRASS
+    - BLOCK, 0.3, TALL_GRASS
+  2-1:
+    layers:
+      '1':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: GRASS_BLOCK
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: PODZOL
+        probs:
+        - 1.0
+        - 0.02
+      '2':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: DIRT
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COARSE_DIRT
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: GRAVEL
+        probs:
+        - 1.0
+        - 1.0
+        - 0.5
+      '3':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: DIRT
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COARSE_DIRT
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: GRAVEL
+        probs:
+        - 0.5
+        - 0.5
+        - 2.0
+        - 0.5
+      '4':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: IRON_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: REDSTONE_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        probs:
+        - 2.0
+        - 0.3
+        - 0.3
+        - 0.7
+      '5':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: IRON_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: REDSTONE_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        probs:
+        - 2.0
+        - 0.4
+        - 0.4
+        - 0.5
+      '6':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: INFESTED_STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: IRON_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: REDSTONE_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        probs:
+        - 1.7
+        - 0.4
+        - 0.4
+        - 0.4
+        - 0.5
+      '7':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: INFESTED_STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: IRON_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: REDSTONE_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: LAPIS_ORE
+        probs:
+        - 1.7
+        - 0.3
+        - 0.3
+        - 0.3
+        - 0.4
+        - 0.2
+      '8':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: INFESTED_STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: IRON_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: REDSTONE_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: LAPIS_ORE
+        probs:
+        - 1.7
+        - 0.3
+        - 0.3
+        - 0.3
+        - 0.3
+      '9':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: INFESTED_STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: IRON_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: REDSTONE_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: LAPIS_ORE
+        probs:
+        - 1.7
+        - 0.3
+        - 0.3
+        - 0.3
+        - 0.3
+      '10':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: INFESTED_STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: IRON_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: REDSTONE_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: LAPIS_ORE
+        probs:
+        - 1.7
+        - 0.3
+        - 0.3
+        - 0.3
+        - 0.3
+    entities:
+      '1':
+        hp: 30
+        damage: 1
+        type: ZOMBIE
+        prob: 0.6
+        abilities:
+        - ANTIFIRE
+      '2':
+        hp: 40
+        damage: 1
+        type: ZOMBIE
+        prob: 0.6
+        abilities:
+        - ANTIFIRE
+      '3':
+        hp: 30
+        damage: 1
+        type: ZOMBIE
+        prob: 0.6
+        abilities:
+        - ANTIFIRE
+      '4':
+        hp: 20
+        damage: 1
+        type: SKELETON
+        prob: 0.6
+        abilities:
+        - ANTIFIRE
+      '5':
+        hp: 40
+        damage: 1
+        type: SKELETON
+        prob: 0.6
+        abilities:
+        - ANTIFIRE
+      '6':
+        hp: 20
+        damage: 1
+        type: SPIDER
+        prob: 0.6
+        abilities: []
+      '7':
+        hp: 20
+        damage: 1
+        type: SPIDER
+        prob: 0.6
+        abilities: []
+    other_structures:
+    - CHEST, 0.2
+    - TREE-1, 0.8
+    - TREE-2, 0.8
+    - TREE-3, 0.8
+    - TREE-1, 0.8
+    - TREE-2, 0.8
+    - TREE-3, 0.8
+    - BLOCK, 0.6, PUMPKIN
+    - BLOCK, 0.6, PUMPKIN
+    - BLOCK, 0.6, MELON
+    - BLOCK, 0.8, GRASS
+    - BLOCK, 0.8, GRASS
+    - BLOCK, 0.8, GRASS
+    - BLOCK, 0.8, GRASS
+    only_main_island_structures:
+    - CHEST, 1.0
+    - TREE-1, 0.8
+    - TREE-2, 0.8
+    - TREE-3, 0.8
+    - TREE-1, 0.8
+    - TREE-1, 0.8
+    - TREE-2, 0.8
+    - TREE-3, 0.8
+    - BLOCK, 0.6, PUMPKIN
+    - BLOCK, 0.6, PUMPKIN
+    - BLOCK, 0.6, PUMPKIN
+    - BLOCK, 0.6, MELON
+    - BLOCK, 0.6, MELON
+    - BLOCK, 0.8, GRASS
+    - BLOCK, 0.8, GRASS
+    - BLOCK, 0.8, GRASS
+    - BLOCK, 0.8, GRASS
+    - BLOCK, 0.8, GRASS
+  2-2:
+    layers:
+      '1':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: SANDSTONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: SAND
+        probs:
+        - 1.0
+        - 0.2
+      '2':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: SANDSTONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: SAND
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: SMOOTH_SANDSTONE
+        probs:
+        - 1.0
+        - 0.4
+        - 0.3
+      '3':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: SMOOTH_SANDSTONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: REDSTONE_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: IRON_ORE
+        probs:
+        - 1.5
+        - 0.3
+        - 0.2
+        - 0.2
+      '4':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: SMOOTH_SANDSTONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: REDSTONE_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: IRON_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        probs:
+        - 1.5
+        - 0.1
+        - 0.2
+        - 0.2
+        - 0.4
+      '5':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: SMOOTH_SANDSTONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: REDSTONE_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: IRON_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        probs:
+        - 1.5
+        - 0.1
+        - 0.2
+        - 0.2
+        - 0.3
+      '6':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: SMOOTH_SANDSTONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: REDSTONE_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: IRON_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: GOLD_ORE
+        probs:
+        - 1.5
+        - 0.1
+        - 0.1
+        - 0.1
+        - 0.2
+        - 0.1
+      '7':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: SMOOTH_SANDSTONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: REDSTONE_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: IRON_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: GOLD_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: DIAMOND_ORE
+        probs:
+        - 1.5
+        - 0.1
+        - 0.1
+        - 0.1
+        - 0.2
+        - 0.1
+        - 0.02
+      '8':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: SMOOTH_SANDSTONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: REDSTONE_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: IRON_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: GOLD_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: DIAMOND_ORE
+        probs:
+        - 1.5
+        - 0.1
+        - 0.1
+        - 0.1
+        - 0.2
+        - 0.1
+        - 0.1
+      '9':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: SMOOTH_SANDSTONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: REDSTONE_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: IRON_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: GOLD_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: DIAMOND_ORE
+        probs:
+        - 1.5
+        - 0.1
+        - 0.1
+        - 0.1
+        - 0.2
+        - 0.1
+        - 0.1
+      '10':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: SMOOTH_SANDSTONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: REDSTONE_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: IRON_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: GOLD_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: DIAMOND_ORE
+        probs:
+        - 1.5
+        - 0.1
+        - 0.1
+        - 0.1
+        - 0.2
+        - 0.1
+        - 0.1
+    entities:
+      '1':
+        hp: 30
+        damage: 1.1
+        type: HUSK
+        prob: 0.6
+        abilities:
+        - ANTIFIRE
+      '2':
+        hp: 40
+        damage: 1.1
+        type: HUSK
+        prob: 0.6
+        abilities:
+        - ANTIFIRE
+      '3':
+        hp: 30
+        damage: 1.1
+        type: HUSK
+        prob: 0.6
+        abilities:
+        - ANTIFIRE
+      '4':
+        hp: 20
+        damage: 1.1
+        type: CREEPER
+        prob: 0.6
+        abilities: []
+      '5':
+        hp: 40
+        damage: 1.1
+        type: SPIDER
+        prob: 0.6
+        abilities: []
+      '6':
+        hp: 20
+        damage: 1
+        type: RABBIT
+        prob: 0.6
+        abilities: []
+      '7':
+        hp: 20
+        damage: 1
+        type: RABBIT
+        prob: 0.6
+        abilities: []
+      '8':
+        hp: 30
+        damage: 1.1
+        type: WOLF
+        prob: 0.5
+        abilities: []
+    other_structures:
+    - BLOCK, 0.6, CACTUS
+    - BLOCK, 0.6, CACTUS
+    - BLOCK, 0.6, CACTUS
+    - BLOCK, 0.8, DEAD_BUSH
+    - BLOCK, 0.8, DEAD_BUSH
+    - BLOCK, 0.8, DEAD_BUSH
+    - BLOCK, 0.8, DEAD_BUSH
+    - BLOCK, 0.8, DEAD_BUSH
+    only_main_island_structures:
+    - CHEST, 1.0
+    - BLOCK, 0.6, CACTUS
+    - BLOCK, 0.6, CACTUS
+    - BLOCK, 0.6, CACTUS
+    - BLOCK, 0.6, CACTUS
+    - BLOCK, 0.8, DEAD_BUSH
+    - BLOCK, 0.8, DEAD_BUSH
+    - BLOCK, 0.8, DEAD_BUSH
+    - BLOCK, 0.8, DEAD_BUSH
+    - BLOCK, 0.8, DEAD_BUSH
+  2-3:
+    layers:
+      '1':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: GRASS_BLOCK
+        probs:
+        - 1.0
+      '2':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: DIRT
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: CLAY
+        probs:
+        - 0.5
+        - 0.5
+        - 0.3
+      '3':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: DIRT
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        probs:
+        - 1.0
+        - 1.0
+        - 0.5
+      '4':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: DIRT
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: IRON_ORE
+        probs:
+        - 1.0
+        - 1.0
+        - 0.5
+        - 0.2
+      '5':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: IRON_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: REDSTONE_ORE
+        probs:
+        - 2.0
+        - 0.5
+        - 0.3
+        - 0.2
+      '6':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: IRON_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: REDSTONE_ORE
+        probs:
+        - 2.0
+        - 0.6
+        - 0.4
+        - 0.3
+      '7':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: IRON_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: REDSTONE_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: DIAMOND_ORE
+        probs:
+        - 2.0
+        - 0.5
+        - 0.3
+        - 0.2
+        - 0.02
+      '8':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: IRON_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: REDSTONE_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: DIAMOND_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COBWEB
+        probs:
+        - 2.0
+        - 0.5
+        - 0.3
+        - 0.2
+        - 0.1
+        - 0.1
+      '9':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: IRON_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: REDSTONE_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: DIAMOND_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COBWEB
+        probs:
+        - 2.0
+        - 0.5
+        - 0.3
+        - 0.2
+        - 0.1
+        - 0.15
+      '10':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: IRON_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: REDSTONE_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: DIAMOND_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COBWEB
+        probs:
+        - 2.0
+        - 0.5
+        - 0.3
+        - 0.2
+        - 0.1
+        - 0.2
+    entities:
+      '1':
+        hp: 20
+        damage: 1
+        type: PARROT
+        prob: 0.5
+        abilities: []
+      '2':
+        hp: 20
+        damage: 1
+        type: PARROT
+        prob: 0.5
+        abilities: []
+      '3':
+        hp: 20
+        damage: 1
+        type: OCELOT
+        prob: 0.7
+        abilities: []
+      '4':
+        hp: 20
+        damage: 1
+        type: COW
+        prob: 0.6
+        abilities: []
+      '5':
+        hp: 20
+        damage: 1
+        type: COW
+        prob: 0.6
+        abilities: []
+      '6':
+        hp: 40
+        damage: 1.0
+        type: SLIME
+        prob: 0.1
+        abilities: []
+    other_structures:
+    - TREE-5, 0.8
+    - TREE-5, 0.8
+    - BLOCK, 0.8, SWEET_BERRY_BUSH
+    - BLOCK, 0.8, SWEET_BERRY_BUSH
+    - BLOCK, 0.3, ROSE_BUSH
+    - BLOCK, 0.3, PEONY
+    - BLOCK, 0.3, LILAC
+    - BLOCK, 0.7, GRASS
+    - BLOCK, 0.7, GRASS
+    - BLOCK, 0.7, GRASS
+    - BLOCK, 0.7, GRASS
+    - BLOCK, 0.7, GRASS
+    - BLOCK, 0.7, GRASS
+    - BLOCK, 0.3, TALL_GRASS
+    - BLOCK, 0.3, TALL_GRASS
+    - BLOCK, 0.3, TALL_GRASS
+    - BLOCK, 0.5, FERN
+    only_main_island_structures:
+    - CHEST, 1.0
+    - TREE-5, 0.8
+    - TREE-5, 0.8
+    - TREE-5, 0.8
+    - TREE-5, 0.8
+    - BLOCK, 0.8, SWEET_BERRY_BUSH
+    - BLOCK, 0.8, SWEET_BERRY_BUSH
+    - BLOCK, 0.3, DANDELION
+    - BLOCK, 0.3, POPPY
+    - BLOCK, 0.3, DANDELION
+    - BLOCK, 0.3, POPPY
+    - BLOCK, 0.5, FERN
+    - BLOCK, 0.2, BLUE_ORCHID
+    - BLOCK, 0.2, ALLIUM
+    - BLOCK, 0.2, AZURE_BLUET
+    - BLOCK, 0.2, RED_TULIP
+    - BLOCK, 0.2, ORANGE_TULIP
+    - BLOCK, 0.2, WHITE_TULIP
+    - BLOCK, 0.2, PINK_TULIP
+    - BLOCK, 0.7, GRASS
+    - BLOCK, 0.7, GRASS
+    - BLOCK, 0.7, GRASS
+    - BLOCK, 0.7, GRASS
+    - BLOCK, 0.7, GRASS
+    - BLOCK, 0.3, TALL_GRASS
+    - BLOCK, 0.3, TALL_GRASS
+    - BLOCK, 0.3, TALL_GRASS
+  2-4:
+    layers:
+      '1':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: AIR
+          amount: 0
+        probs:
+        - 1.0
+      '2':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: AIR
+          amount: 0
+        probs:
+        - 1.0
+      '3':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: AIR
+          amount: 0
+        probs:
+        - 1.0
+      '4':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: AIR
+          amount: 0
+        probs:
+        - 1.0
+      '5':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: AIR
+          amount: 0
+        probs:
+        - 1.0
+      '6':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: AIR
+          amount: 0
+        probs:
+        - 1.0
+      '7':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: AIR
+          amount: 0
+        probs:
+        - 1.0
+      '8':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: AIR
+          amount: 0
+        probs:
+        - 1.0
+      '9':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: AIR
+          amount: 0
+        probs:
+        - 1.0
+      '10':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: AIR
+          amount: 0
+        probs:
+        - 1.0
+    entities:
+      '1':
+        hp: 10
+        damage: 1
+        type: PUFFERFISH
+        prob: 0.6
+        abilities: []
+      '2':
+        hp: 10
+        damage: 1
+        type: SALMON
+        prob: 0.5
+        abilities: []
+      '3':
+        hp: 10
+        damage: 1
+        type: SALMON
+        prob: 0.7
+        abilities: []
+      '4':
+        hp: 20
+        damage: 1
+        type: COD
+        prob: 0.8
+        abilities: []
+      '5':
+        hp: 20
+        damage: 1
+        type: COD
+        prob: 0.8
+        abilities: []
+      '6':
+        hp: 20
+        damage: 1
+        type: TROPICAL_FISH
+        prob: 0.8
+        abilities: []
+      '7':
+        hp: 20
+        damage: 1
+        type: SQUID
+        prob: 0.8
+        abilities: []
+    other_structures: []
+    only_main_island_structures: []
+  3-1:
+    layers:
+      '1':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: GRASS_BLOCK
+        probs:
+        - 1.0
+      '2':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: SNOW_BLOCK
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: DIRT
+        probs:
+        - 0.2
+        - 1.0
+      '3':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: SNOW_BLOCK
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: DIRT
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        probs:
+        - 0.2
+        - 1.0
+        - 0.3
+      '4':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: SNOW_BLOCK
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: DIRT
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: IRON_ORE
+        probs:
+        - 0.2
+        - 1.0
+        - 0.8
+        - 0.1
+        - 0.1
+      '5':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: SNOW_BLOCK
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: DIRT
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: IRON_ORE
+        probs:
+        - 0.2
+        - 1.0
+        - 0.8
+        - 0.2
+        - 0.2
+      '6':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: SNOW_BLOCK
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: DIRT
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: IRON_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: REDSTONE_ORE
+        probs:
+        - 0.2
+        - 1.0
+        - 0.8
+        - 0.2
+        - 0.2
+        - 0.2
+      '7':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: SNOW_BLOCK
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: DIRT
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: IRON_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: REDSTONE_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: DIAMOND_ORE
+        probs:
+        - 0.2
+        - 1.0
+        - 0.8
+        - 0.2
+        - 0.2
+        - 0.2
+        - 0.1
+      '8':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: SNOW_BLOCK
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: DIRT
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: IRON_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: REDSTONE_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: DIAMOND_ORE
+        probs:
+        - 0.2
+        - 1.0
+        - 0.8
+        - 0.2
+        - 0.2
+        - 0.2
+        - 0.1
+      '9':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: SNOW_BLOCK
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: DIRT
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: IRON_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: REDSTONE_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: DIAMOND_ORE
+        probs:
+        - 0.2
+        - 1.0
+        - 0.8
+        - 0.2
+        - 0.2
+        - 0.2
+        - 0.1
+      '10':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: SNOW_BLOCK
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: DIRT
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: IRON_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: REDSTONE_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: DIAMOND_ORE
+        probs:
+        - 0.2
+        - 1.0
+        - 0.8
+        - 0.2
+        - 0.2
+        - 0.2
+        - 0.1
+    entities:
+      '1':
+        hp: 20
+        damage: 1
+        type: SNOW_GOLEM
+        prob: 0.6
+        abilities: []
+      '2':
+        hp: 20
+        damage: 1
+        type: SNOW_GOLEM
+        prob: 0.6
+        abilities: []
+      '3':
+        hp: 20
+        damage: 1
+        type: FOX
+        prob: 0.8
+        abilities: []
+      '4':
+        hp: 20
+        damage: 1
+        type: WOLF
+        prob: 0.8
+        abilities: []
+      '5':
+        hp: 20
+        damage: 1
+        type: WOLF
+        prob: 0.8
+        abilities: []
+    other_structures:
+    - CHEST, 0.2
+    - TREE-3, 0.8
+    - TREE-3, 0.8
+    - BLOCK, 0.8, SNOW
+    - BLOCK, 0.8, SNOW
+    - BLOCK, 0.8, SNOW
+    - BLOCK, 0.8, SNOW
+    - BLOCK, 0.8, SNOW
+    - BLOCK, 0.8, SNOW
+    only_main_island_structures:
+    - CHEST, 1.0
+    - TREE-3, 0.8
+    - TREE-3, 0.8
+    - TREE-3, 0.8
+    - TREE-3, 0.8
+    - TREE-3, 0.8
+    - BLOCK, 0.8, SNOW
+    - BLOCK, 0.8, SNOW
+    - BLOCK, 0.8, SNOW
+    - BLOCK, 0.8, SNOW
+    - BLOCK, 0.8, SNOW
+    - BLOCK, 0.8, SNOW
+    - BLOCK, 0.8, SNOW
+  3-2:
+    layers:
+      '1':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: GRASS_BLOCK
+        probs:
+        - 1.0
+      '2':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: DIRT
+        probs:
+        - 0.5
+        - 0.5
+      '3':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: DIRT
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        probs:
+        - 1.0
+        - 1.0
+        - 0.5
+      '4':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: DIRT
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: IRON_ORE
+        probs:
+        - 1.0
+        - 1.0
+        - 0.5
+        - 0.2
+      '5':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: IRON_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: REDSTONE_ORE
+        probs:
+        - 2.0
+        - 0.5
+        - 0.3
+        - 0.2
+      '6':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: IRON_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: REDSTONE_ORE
+        probs:
+        - 2.0
+        - 0.6
+        - 0.4
+        - 0.3
+      '7':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: IRON_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: REDSTONE_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: DIAMOND_ORE
+        probs:
+        - 2.0
+        - 0.5
+        - 0.3
+        - 0.2
+        - 0.02
+      '8':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: IRON_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: REDSTONE_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: DIAMOND_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COBWEB
+        probs:
+        - 2.0
+        - 0.5
+        - 0.3
+        - 0.2
+        - 0.1
+        - 0.1
+      '9':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: IRON_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: REDSTONE_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: DIAMOND_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COBWEB
+        probs:
+        - 2.0
+        - 0.5
+        - 0.3
+        - 0.2
+        - 0.1
+        - 0.15
+      '10':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: IRON_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: REDSTONE_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: DIAMOND_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COBWEB
+        probs:
+        - 2.0
+        - 0.5
+        - 0.3
+        - 0.2
+        - 0.1
+        - 0.2
+    entities:
+      '1':
+        hp: 20
+        damage: 1
+        type: PANDA
+        prob: 0.6
+        abilities: []
+      '2':
+        hp: 20
+        damage: 1
+        type: PANDA
+        prob: 0.6
+        abilities: []
+      '3':
+        hp: 20
+        damage: 1
+        type: PANDA
+        prob: 0.6
+        abilities: []
+      '4':
+        hp: 20
+        damage: 1
+        type: TURTLE
+        prob: 0.6
+        abilities: []
+      '5':
+        hp: 40
+        damage: 1.0
+        type: SLIME
+        prob: 0.1
+        abilities: []
+    other_structures:
+    - CHEST, 0.1
+    - TREE-5, 0.8
+    - TREE-5, 0.8
+    - BLOCK, 0.8, BAMBOO_SAPLING
+    - BLOCK, 0.8, BAMBOO_SAPLING
+    - BLOCK, 0.8, BAMBOO_SAPLING
+    - BLOCK, 0.8, BAMBOO_SAPLING
+    - BLOCK, 0.8, BAMBOO_SAPLING
+    - BLOCK, 0.8, BAMBOO_SAPLING
+    - BLOCK, 0.8, GRASS
+    - BLOCK, 0.8, GRASS
+    - BLOCK, 0.8, GRASS
+    - BLOCK, 0.8, GRASS
+    - BLOCK, 0.8, GRASS
+    - BLOCK, 0.8, TALL_GRASS
+    - BLOCK, 0.8, TALL_GRASS
+    only_main_island_structures:
+    - CHEST, 1.0
+    - TREE-5, 0.8
+    - TREE-5, 0.8
+    - BLOCK, 0.8, BAMBOO_SAPLING
+    - BLOCK, 0.8, BAMBOO_SAPLING
+    - BLOCK, 0.8, BAMBOO_SAPLING
+    - BLOCK, 0.8, BAMBOO_SAPLING
+    - BLOCK, 0.8, BAMBOO_SAPLING
+    - BLOCK, 0.8, BAMBOO_SAPLING
+    - BLOCK, 0.8, BAMBOO_SAPLING
+    - BLOCK, 0.8, GRASS
+    - BLOCK, 0.8, GRASS
+    - BLOCK, 0.8, GRASS
+    - BLOCK, 0.8, GRASS
+    - BLOCK, 0.8, TALL_GRASS
+    - BLOCK, 0.8, TALL_GRASS
+  4-1:
+    layers:
+      '1':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: GRASS_BLOCK
+        probs:
+        - 1.0
+      '2':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: DIRT
+        probs:
+        - 0.5
+        - 0.5
+      '3':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: DIRT
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        probs:
+        - 1.0
+        - 1.0
+        - 0.5
+      '4':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: DIRT
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: IRON_ORE
+        probs:
+        - 1.0
+        - 1.0
+        - 0.5
+        - 0.2
+      '5':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: IRON_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: REDSTONE_ORE
+        probs:
+        - 2.0
+        - 0.5
+        - 0.3
+        - 0.2
+      '6':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: IRON_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: REDSTONE_ORE
+        probs:
+        - 2.0
+        - 0.6
+        - 0.4
+        - 0.3
+      '7':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: IRON_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: REDSTONE_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: DIAMOND_ORE
+        probs:
+        - 2.0
+        - 0.5
+        - 0.3
+        - 0.2
+        - 0.02
+      '8':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: IRON_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: REDSTONE_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: DIAMOND_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COBWEB
+        probs:
+        - 2.0
+        - 0.5
+        - 0.3
+        - 0.2
+        - 0.1
+        - 0.1
+      '9':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: IRON_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: REDSTONE_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: DIAMOND_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COBWEB
+        probs:
+        - 2.0
+        - 0.5
+        - 0.3
+        - 0.2
+        - 0.1
+        - 0.15
+      '10':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: IRON_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: REDSTONE_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: DIAMOND_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COBWEB
+        probs:
+        - 2.0
+        - 0.5
+        - 0.3
+        - 0.2
+        - 0.1
+        - 0.2
+    entities:
+      '1':
+        hp: 20
+        damage: 1
+        type: IRON_GOLEM
+        prob: 1.0
+        abilities: []
+      '2':
+        hp: 20
+        damage: 1
+        type: VILLAGER
+        prob: 0.8
+        abilities: []
+      '3':
+        hp: 20
+        damage: 1
+        type: VILLAGER
+        prob: 0.8
+        abilities: []
+    other_structures:
+    - CHEST, 0.2
+    - TREE-1, 0.8
+    - TREE-2, 0.8
+    - TREE-3, 0.8
+    - BLOCK, 0.8, HAY_BLOCK
+    - BLOCK, 0.8, HAY_BLOCK
+    - BLOCK, 0.8, HAY_BLOCK
+    - BLOCK, 0.8, HAY_BLOCK
+    - BLOCK, 0.8, SWEET_BERRY_BUSH
+    - BLOCK, 0.8, SWEET_BERRY_BUSH
+    - BLOCK, 0.8, SWEET_BERRY_BUSH
+    - BLOCK, 0.3, ROSE_BUSH
+    - BLOCK, 0.3, PEONY
+    - BLOCK, 0.3, LILAC
+    - BLOCK, 0.7, GRASS
+    - BLOCK, 0.7, GRASS
+    - BLOCK, 0.7, GRASS
+    - BLOCK, 0.7, GRASS
+    - BLOCK, 0.7, GRASS
+    - BLOCK, 0.7, GRASS
+    - BLOCK, 0.3, TALL_GRASS
+    - BLOCK, 0.3, TALL_GRASS
+    - BLOCK, 0.3, TALL_GRASS
+    - BLOCK, 0.5, FERN
+    only_main_island_structures:
+    - CHEST, 1.0
+    - TREE-1, 0.8
+    - TREE-2, 0.8
+    - TREE-3, 0.8
+    - TREE-1, 0.8
+    - BLOCK, 0.8, HAY_BLOCK
+    - BLOCK, 0.8, HAY_BLOCK
+    - BLOCK, 0.8, HAY_BLOCK
+    - BLOCK, 0.8, HAY_BLOCK
+    - BLOCK, 0.8, HAY_BLOCK
+    - BLOCK, 0.8, SWEET_BERRY_BUSH
+    - BLOCK, 0.8, SWEET_BERRY_BUSH
+    - BLOCK, 0.8, SWEET_BERRY_BUSH
+    - BLOCK, 0.3, DANDELION
+    - BLOCK, 0.3, POPPY
+    - BLOCK, 0.3, DANDELION
+    - BLOCK, 0.3, POPPY
+    - BLOCK, 0.5, FERN
+    - BLOCK, 0.2, BLUE_ORCHID
+    - BLOCK, 0.2, ALLIUM
+    - BLOCK, 0.2, AZURE_BLUET
+    - BLOCK, 0.2, RED_TULIP
+    - BLOCK, 0.2, ORANGE_TULIP
+    - BLOCK, 0.2, WHITE_TULIP
+    - BLOCK, 0.2, PINK_TULIP
+    - BLOCK, 0.7, GRASS
+    - BLOCK, 0.7, GRASS
+    - BLOCK, 0.7, GRASS
+    - BLOCK, 0.7, GRASS
+    - BLOCK, 0.7, GRASS
+    - BLOCK, 0.3, TALL_GRASS
+    - BLOCK, 0.3, TALL_GRASS
+    - BLOCK, 0.3, TALL_GRASS
+  5-1:
+    layers:
+      '1':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: PACKED_ICE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: ICE
+        probs:
+        - 1.0
+        - 0.2
+      '2':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: PACKED_ICE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: BLUE_ICE
+        probs:
+        - 1.0
+        - 0.2
+      '3':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: PACKED_ICE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: BLUE_ICE
+        probs:
+        - 1.0
+        - 0.3
+      '4':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: PACKED_ICE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: BLUE_ICE
+        probs:
+        - 1.0
+        - 0.4
+      '5':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: PACKED_ICE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: BLUE_ICE
+        probs:
+        - 1.0
+        - 0.5
+      '6':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: PACKED_ICE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: BLUE_ICE
+        probs:
+        - 1.0
+        - 0.7
+      '7':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: PACKED_ICE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: BLUE_ICE
+        probs:
+        - 1.0
+        - 0.9
+      '8':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: PACKED_ICE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: BLUE_ICE
+        probs:
+        - 1.0
+        - 1.0
+      '9':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: PACKED_ICE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: BLUE_ICE
+        probs:
+        - 1.0
+        - 1.2
+      '10':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: PACKED_ICE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: BLUE_ICE
+        probs:
+        - 1.0
+        - 1.4
+    entities:
+      '1':
+        hp: 20
+        damage: 1
+        type: POLAR_BEAR
+        prob: 0.6
+        abilities: []
+      '2':
+        hp: 20
+        damage: 1
+        type: POLAR_BEAR
+        prob: 0.6
+        abilities: []
+      '3':
+        hp: 20
+        damage: 1
+        type: POLAR_BEAR
+        prob: 0.6
+        abilities: []
+    other_structures:
+    - CHEST, 0.2
+    only_main_island_structures:
+    - CHEST, 1.0
+  6-1:
+    layers:
+      '1':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: GRASS_BLOCK
+        probs:
+        - 1.0
+      '2':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: DIRT
+        probs:
+        - 0.5
+        - 0.5
+      '3':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHERRACK
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: DIRT
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: SOUL_SAND
+        probs:
+        - 1.0
+        - 1.0
+        - 1.0
+        - 0.5
+        - 0.5
+      '4':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHERRACK
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: DIRT
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: IRON_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: SOUL_SAND
+        probs:
+        - 1.0
+        - 1.0
+        - 0.5
+        - 0.2
+        - 0.3
+      '5':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHERRACK
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: IRON_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: REDSTONE_ORE
+        probs:
+        - 2.0
+        - 0.5
+        - 0.3
+        - 0.2
+      '6':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHERRACK
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: IRON_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: REDSTONE_ORE
+        probs:
+        - 2.0
+        - 0.6
+        - 0.4
+        - 0.3
+      '7':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHERRACK
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: IRON_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: REDSTONE_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: DIAMOND_ORE
+        probs:
+        - 2.0
+        - 0.5
+        - 0.3
+        - 0.2
+        - 0.02
+      '8':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHERRACK
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: IRON_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: REDSTONE_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: DIAMOND_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COBWEB
+        probs:
+        - 2.0
+        - 0.5
+        - 0.3
+        - 0.2
+        - 0.1
+        - 0.1
+      '9':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHERRACK
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: IRON_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: REDSTONE_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: DIAMOND_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COBWEB
+        probs:
+        - 2.0
+        - 0.5
+        - 0.3
+        - 0.2
+        - 0.1
+        - 0.15
+      '10':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHERRACK
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: IRON_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: REDSTONE_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: DIAMOND_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COBWEB
+        probs:
+        - 2.0
+        - 0.5
+        - 0.3
+        - 0.2
+        - 0.1
+        - 0.2
+    entities:
+      '1':
+        hp: 50
+        damage: 1.5
+        type: CAVE_SPIDER
+        prob: 0.8
+        abilities: []
+      '2':
+        hp: 50
+        damage: 1.5
+        type: CAVE_SPIDER
+        prob: 0.8
+        abilities: []
+      '3':
+        hp: 40
+        damage: 1.5
+        type: ENDERMAN
+        prob: 0.8
+        abilities: []
+      '4':
+        hp: 40
+        damage: 1.5
+        type: PIGLIN
+        prob: 0.2
+        abilities: []
+      '5':
+        hp: 30
+        damage: 1.0
+        type: SLIME
+        prob: 0.1
+        abilities: []
+    other_structures:
+    - CHEST, 0.1
+    - TREE-6, 0.8
+    - TREE-6, 0.8
+    - BLOCK, 0.8, GRASS
+    - BLOCK, 0.8, GRASS
+    - BLOCK, 0.8, GRASS
+    - BLOCK, 0.8, GRASS
+    - BLOCK, 0.8, GRASS
+    - BLOCK, 0.8, TALL_GRASS
+    - BLOCK, 0.8, TALL_GRASS
+    only_main_island_structures:
+    - CHEST, 1.0
+    - TREE-6, 0.8
+    - TREE-6, 0.8
+    - TREE-6, 0.8
+    - BLOCK, 0.8, GRASS
+    - BLOCK, 0.8, GRASS
+    - BLOCK, 0.8, GRASS
+    - BLOCK, 0.8, GRASS
+    - BLOCK, 0.8, TALL_GRASS
+    - BLOCK, 0.8, TALL_GRASS
+  6-2:
+    layers:
+      '1':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: GRASS_BLOCK
+        probs:
+        - 1.0
+      '2':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: DIRT
+        probs:
+        - 0.5
+        - 0.5
+      '3':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHERRACK
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: DIRT
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: SOUL_SAND
+        probs:
+        - 1.0
+        - 1.0
+        - 1.0
+        - 0.5
+        - 0.3
+      '4':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHERRACK
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: DIRT
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: IRON_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: SOUL_SAND
+        probs:
+        - 1.0
+        - 1.0
+        - 0.5
+        - 0.2
+        - 0.3
+      '5':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHERRACK
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: IRON_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: REDSTONE_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: SOUL_SAND
+        probs:
+        - 2.0
+        - 0.5
+        - 0.3
+        - 0.2
+        - 0.3
+      '6':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHERRACK
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: IRON_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: REDSTONE_ORE
+        probs:
+        - 2.0
+        - 0.6
+        - 0.4
+        - 0.3
+      '7':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHERRACK
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: IRON_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: REDSTONE_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: DIAMOND_ORE
+        probs:
+        - 2.0
+        - 0.5
+        - 0.3
+        - 0.2
+        - 0.02
+      '8':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHERRACK
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: IRON_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: REDSTONE_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: DIAMOND_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COBWEB
+        probs:
+        - 2.0
+        - 0.5
+        - 0.3
+        - 0.2
+        - 0.1
+        - 0.1
+      '9':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHERRACK
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: IRON_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: REDSTONE_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: DIAMOND_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COBWEB
+        probs:
+        - 2.0
+        - 0.5
+        - 0.3
+        - 0.2
+        - 0.1
+        - 0.15
+      '10':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHERRACK
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: IRON_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: REDSTONE_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: DIAMOND_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COBWEB
+        probs:
+        - 2.0
+        - 0.5
+        - 0.3
+        - 0.2
+        - 0.1
+        - 0.2
+    entities:
+      '1':
+        hp: 50
+        damage: 1.3
+        type: SLIME
+        prob: 0.8
+        abilities: []
+      '2':
+        hp: 50
+        damage: 1.3
+        type: SLIME
+        prob: 0.8
+        abilities: []
+      '3':
+        hp: 40
+        damage: 1.3
+        type: MAGMA_CUBE
+        prob: 0.8
+        abilities: []
+    other_structures:
+    - CHEST, 0.2
+    - TREE-6, 0.8
+    - TREE-6, 0.8
+    - BLOCK, 0.8, SWEET_BERRY_BUSH
+    - BLOCK, 0.8, SWEET_BERRY_BUSH
+    - BLOCK, 0.3, ROSE_BUSH
+    - BLOCK, 0.3, PEONY
+    - BLOCK, 0.3, LILAC
+    - BLOCK, 0.7, GRASS
+    - BLOCK, 0.7, GRASS
+    - BLOCK, 0.7, GRASS
+    - BLOCK, 0.7, GRASS
+    - BLOCK, 0.7, GRASS
+    - BLOCK, 0.7, GRASS
+    - BLOCK, 0.3, TALL_GRASS
+    - BLOCK, 0.3, TALL_GRASS
+    - BLOCK, 0.3, TALL_GRASS
+    - BLOCK, 0.5, FERN
+    only_main_island_structures:
+    - CHEST, 1.0
+    - TREE-6, 0.8
+    - TREE-6, 0.8
+    - TREE-6, 0.8
+    - BLOCK, 0.8, SWEET_BERRY_BUSH
+    - BLOCK, 0.8, SWEET_BERRY_BUSH
+    - BLOCK, 0.3, DANDELION
+    - BLOCK, 0.3, POPPY
+    - BLOCK, 0.3, DANDELION
+    - BLOCK, 0.3, POPPY
+    - BLOCK, 0.5, FERN
+    - BLOCK, 0.2, BLUE_ORCHID
+    - BLOCK, 0.2, ALLIUM
+    - BLOCK, 0.2, AZURE_BLUET
+    - BLOCK, 0.2, RED_TULIP
+    - BLOCK, 0.2, ORANGE_TULIP
+    - BLOCK, 0.2, WHITE_TULIP
+    - BLOCK, 0.2, PINK_TULIP
+    - BLOCK, 0.7, GRASS
+    - BLOCK, 0.7, GRASS
+    - BLOCK, 0.7, GRASS
+    - BLOCK, 0.7, GRASS
+    - BLOCK, 0.7, GRASS
+    - BLOCK, 0.3, TALL_GRASS
+    - BLOCK, 0.3, TALL_GRASS
+    - BLOCK, 0.3, TALL_GRASS
+  7-1:
+    layers:
+      '1':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHERRACK
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: SOUL_SAND
+        probs:
+        - 1.0
+        - 0.1
+      '2':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHERRACK
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: BASALT
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: BLACKSTONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: SOUL_SAND
+        probs:
+        - 1.0
+        - 0.5
+        - 0.5
+        - 0.2
+      '3':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHERRACK
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: BASALT
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: BLACKSTONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHER_GOLD_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHER_QUARTZ_ORE
+        probs:
+        - 1.8
+        - 0.5
+        - 0.5
+        - 0.3
+        - 0.3
+      '4':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHERRACK
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: BASALT
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: BLACKSTONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHER_GOLD_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHER_QUARTZ_ORE
+        probs:
+        - 1.8
+        - 0.5
+        - 0.5
+        - 0.3
+        - 0.3
+      '5':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHERRACK
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: BASALT
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: BLACKSTONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHER_GOLD_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHER_QUARTZ_ORE
+        probs:
+        - 1.8
+        - 0.5
+        - 0.5
+        - 0.4
+        - 0.4
+      '6':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHERRACK
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: BASALT
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: BLACKSTONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHER_GOLD_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHER_QUARTZ_ORE
+        probs:
+        - 1.8
+        - 0.5
+        - 0.5
+        - 0.5
+        - 0.5
+      '7':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHERRACK
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: BASALT
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: BLACKSTONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHER_GOLD_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHER_QUARTZ_ORE
+        probs:
+        - 1.8
+        - 0.5
+        - 0.5
+        - 0.6
+        - 0.6
+      '8':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHERRACK
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: BASALT
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: BLACKSTONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHER_GOLD_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHER_QUARTZ_ORE
+        probs:
+        - 1.8
+        - 0.5
+        - 0.5
+        - 0.7
+        - 0.7
+      '9':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHERRACK
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: BASALT
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: BLACKSTONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHER_GOLD_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHER_QUARTZ_ORE
+        probs:
+        - 1.8
+        - 0.5
+        - 0.5
+        - 0.7
+        - 0.7
+      '10':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHERRACK
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: BASALT
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: BLACKSTONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHER_GOLD_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHER_QUARTZ_ORE
+        probs:
+        - 1.8
+        - 0.5
+        - 0.5
+        - 0.7
+        - 0.7
+    entities:
+      '1':
+        hp: 50
+        damage: 1.5
+        type: PIGLIN
+        prob: 1.0
+        abilities: []
+      '2':
+        hp: 50
+        damage: 1.5
+        type: PIGLIN
+        prob: 0.8
+        abilities: []
+      '3':
+        hp: 150
+        damage: 1.5
+        type: ZOGLIN
+        prob: 1.0
+        abilities: []
+      '4':
+        hp: 40
+        damage: 1.5
+        type: PIGLIN
+        prob: 0.5
+        abilities: []
+    other_structures:
+    - CHEST, 0.1
+    - TREE-7, 0.8
+    - TREE-8, 0.8
+    - BLOCK, 0.8, GOLD_BLOCK
+    - BLOCK, 0.8, BROWN_MUSHROOM
+    - BLOCK, 0.8, RED_MUSHROOM
+    only_main_island_structures:
+    - CHEST, 1.0
+    - TREE-7, 0.8
+    - TREE-8, 0.8
+    - TREE-7, 0.8
+    - TREE-8, 0.8
+    - BLOCK, 0.8, GOLD_BLOCK
+    - BLOCK, 0.8, GOLD_BLOCK
+    - BLOCK, 0.8, GOLD_BLOCK
+    - BLOCK, 0.8, BROWN_MUSHROOM
+    - BLOCK, 0.8, RED_MUSHROOM
+    - BLOCK, 0.8, BROWN_MUSHROOM
+    - BLOCK, 0.8, RED_MUSHROOM
+  7-2:
+    layers:
+      '1':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHERRACK
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: SOUL_SAND
+        probs:
+        - 1.0
+        - 0.3
+      '2':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHERRACK
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: BASALT
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: BLACKSTONE
+        probs:
+        - 1.0
+        - 0.5
+        - 0.5
+      '3':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHERRACK
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: BASALT
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: BLACKSTONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHER_GOLD_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHER_QUARTZ_ORE
+        probs:
+        - 1.8
+        - 0.5
+        - 0.5
+        - 0.3
+        - 0.3
+      '4':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHERRACK
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: BASALT
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: BLACKSTONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHER_GOLD_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHER_QUARTZ_ORE
+        probs:
+        - 1.8
+        - 0.5
+        - 0.5
+        - 0.3
+        - 0.3
+      '5':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHERRACK
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: BASALT
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: BLACKSTONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHER_GOLD_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHER_QUARTZ_ORE
+        probs:
+        - 1.8
+        - 0.5
+        - 0.5
+        - 0.4
+        - 0.4
+      '6':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHERRACK
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: BASALT
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: BLACKSTONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHER_GOLD_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHER_QUARTZ_ORE
+        probs:
+        - 1.8
+        - 0.5
+        - 0.5
+        - 0.5
+        - 0.5
+      '7':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHERRACK
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: BASALT
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: BLACKSTONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHER_GOLD_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHER_QUARTZ_ORE
+        probs:
+        - 1.8
+        - 0.5
+        - 0.5
+        - 0.6
+        - 0.6
+      '8':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHERRACK
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: BASALT
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: BLACKSTONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHER_GOLD_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHER_QUARTZ_ORE
+        probs:
+        - 1.8
+        - 0.5
+        - 0.5
+        - 0.7
+        - 0.7
+      '9':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHERRACK
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: BASALT
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: BLACKSTONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHER_GOLD_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHER_QUARTZ_ORE
+        probs:
+        - 1.8
+        - 0.5
+        - 0.5
+        - 0.7
+        - 0.7
+      '10':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHERRACK
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: BASALT
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: BLACKSTONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHER_GOLD_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHER_QUARTZ_ORE
+        probs:
+        - 1.8
+        - 0.5
+        - 0.5
+        - 0.7
+        - 0.7
+    entities:
+      '1':
+        hp: 80
+        damage: 1.5
+        type: WITHER_SKELETON
+        prob: 0.8
+        abilities: []
+      '2':
+        hp: 80
+        damage: 1.5
+        type: WITHER_SKELETON
+        prob: 0.8
+        abilities: []
+      '3':
+        hp: 80
+        damage: 1.5
+        type: WITHER_SKELETON
+        prob: 0.8
+        abilities: []
+      '4':
+        hp: 100
+        damage: 1.5
+        type: BLAZE
+        prob: 0.8
+        abilities: []
+      '5':
+        hp: 100
+        damage: 1.5
+        type: BLAZE
+        prob: 0.8
+        abilities: []
+    other_structures:
+    - CHEST, 0.1
+    - TREE-7, 0.8
+    - TREE-8, 0.8
+    - BLOCK, 0.8, BROWN_MUSHROOM
+    - BLOCK, 0.8, RED_MUSHROOM
+    - BLOCK, 0.8, BROWN_MUSHROOM
+    - BLOCK, 0.8, RED_MUSHROOM
+    only_main_island_structures:
+    - CHEST, 1.0
+    - TREE-7, 0.8
+    - TREE-8, 0.8
+    - TREE-7, 0.8
+    - TREE-8, 0.8
+    - BLOCK, 0.8, BROWN_MUSHROOM
+    - BLOCK, 0.8, RED_MUSHROOM
+    - BLOCK, 0.8, BROWN_MUSHROOM
+    - BLOCK, 0.8, RED_MUSHROOM
+    - BLOCK, 0.8, BROWN_MUSHROOM
+    - BLOCK, 0.8, RED_MUSHROOM
+  8-1:
+    layers:
+      '1':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHERRACK
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: SOUL_SAND
+        probs:
+        - 1.0
+        - 0.2
+      '2':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHERRACK
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: BASALT
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: BLACKSTONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: SOUL_SAND
+        probs:
+        - 1.0
+        - 0.5
+        - 0.5
+        - 0.1
+      '3':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHERRACK
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: BASALT
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: BLACKSTONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHER_GOLD_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHER_QUARTZ_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: SOUL_SAND
+        probs:
+        - 1.8
+        - 0.5
+        - 0.5
+        - 0.3
+        - 0.3
+        - 0.1
+      '4':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHERRACK
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: BASALT
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: BLACKSTONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHER_GOLD_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHER_QUARTZ_ORE
+        probs:
+        - 1.8
+        - 0.5
+        - 0.5
+        - 0.3
+        - 0.3
+      '5':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHERRACK
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: BASALT
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: BLACKSTONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHER_GOLD_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHER_QUARTZ_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: ANCIENT_DEBRIS
+        probs:
+        - 1.8
+        - 0.5
+        - 0.5
+        - 0.4
+        - 0.4
+        - 0.05
+      '6':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHERRACK
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: BASALT
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: BLACKSTONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHER_GOLD_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHER_QUARTZ_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: ANCIENT_DEBRIS
+        probs:
+        - 1.8
+        - 0.5
+        - 0.5
+        - 0.5
+        - 0.5
+        - 0.05
+      '7':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHERRACK
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: BASALT
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: BLACKSTONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHER_GOLD_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHER_QUARTZ_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: ANCIENT_DEBRIS
+        probs:
+        - 1.8
+        - 0.5
+        - 0.5
+        - 0.6
+        - 0.6
+        - 0.1
+      '8':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHERRACK
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: BASALT
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: BLACKSTONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHER_GOLD_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHER_QUARTZ_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: ANCIENT_DEBRIS
+        probs:
+        - 1.8
+        - 0.5
+        - 0.5
+        - 0.7
+        - 0.7
+        - 0.1
+      '9':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHERRACK
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: BASALT
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: BLACKSTONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHER_GOLD_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHER_QUARTZ_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: ANCIENT_DEBRIS
+        probs:
+        - 1.8
+        - 0.5
+        - 0.5
+        - 0.7
+        - 0.7
+        - 0.1
+      '10':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHERRACK
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: BASALT
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: BLACKSTONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHER_GOLD_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: NETHER_QUARTZ_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: ANCIENT_DEBRIS
+        probs:
+        - 1.8
+        - 0.5
+        - 0.5
+        - 0.7
+        - 0.7
+        - 0.1
+    entities:
+      '1':
+        hp: 300
+        damage: 2.0
+        type: GHAST
+        prob: 1.0
+        abilities: []
+      '2':
+        hp: 120
+        damage: 1.5
+        type: PIGLIN
+        prob: 0.8
+        abilities: []
+      '3':
+        hp: 120
+        damage: 1.5
+        type: PIGLIN
+        prob: 0.8
+        abilities: []
+      '4':
+        hp: 100
+        damage: 1.5
+        type: BLAZE
+        prob: 0.9
+        abilities: []
+    other_structures:
+    - BLOCK, 0.9, BROWN_MUSHROOM
+    - BLOCK, 0.9, RED_MUSHROOM
+    - BLOCK, 0.9, BROWN_MUSHROOM
+    - BLOCK, 0.9, RED_MUSHROOM
+    only_main_island_structures:
+    - CHEST, 1.0
+    - BLOCK, 0.9, BROWN_MUSHROOM
+    - BLOCK, 0.9, RED_MUSHROOM
+    - BLOCK, 0.9, BROWN_MUSHROOM
+    - BLOCK, 0.9, RED_MUSHROOM
+    - BLOCK, 0.9, BROWN_MUSHROOM
+    - BLOCK, 0.9, RED_MUSHROOM
+  9-1:
+    layers:
+      '1':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: GRASS_BLOCK
+        probs:
+        - 1.0
+      '2':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: DIRT
+        probs:
+        - 0.5
+        - 0.5
+      '3':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: DIRT
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        probs:
+        - 1.0
+        - 1.0
+        - 0.5
+      '4':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: DIRT
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: IRON_ORE
+        probs:
+        - 1.0
+        - 1.0
+        - 0.5
+        - 0.2
+      '5':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: IRON_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: REDSTONE_ORE
+        probs:
+        - 2.0
+        - 0.5
+        - 0.3
+        - 0.2
+      '6':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: IRON_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: REDSTONE_ORE
+        probs:
+        - 2.0
+        - 0.6
+        - 0.4
+        - 0.3
+      '7':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: IRON_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: REDSTONE_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: DIAMOND_ORE
+        probs:
+        - 2.0
+        - 0.5
+        - 0.3
+        - 0.2
+        - 0.02
+      '8':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: IRON_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: REDSTONE_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: DIAMOND_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COBWEB
+        probs:
+        - 2.0
+        - 0.5
+        - 0.3
+        - 0.2
+        - 0.1
+        - 0.1
+      '9':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: IRON_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: REDSTONE_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: DIAMOND_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COBWEB
+        probs:
+        - 2.0
+        - 0.5
+        - 0.3
+        - 0.2
+        - 0.1
+        - 0.15
+      '10':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COAL_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: IRON_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: REDSTONE_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: DIAMOND_ORE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: COBWEB
+        probs:
+        - 2.0
+        - 0.5
+        - 0.3
+        - 0.2
+        - 0.1
+        - 0.2
+    entities:
+      '1':
+        hp: 200
+        damage: 2.0
+        type: VINDICATOR
+        prob: 0.9
+        abilities: []
+      '2':
+        hp: 200
+        damage: 2.0
+        type: PILLAGER
+        prob: 0.9
+        abilities: []
+      '3':
+        hp: 200
+        damage: 2.0
+        type: EVOKER
+        prob: 0.9
+        abilities: []
+      '4':
+        hp: 500
+        damage: 2.0
+        type: RAVAGER
+        prob: 0.9
+        abilities: []
+    other_structures:
+    - CHEST, 0.1
+    - TREE-1, 0.8
+    - TREE-2, 0.8
+    - TREE-3, 0.8
+    - BLOCK, 0.8, SWEET_BERRY_BUSH
+    - BLOCK, 0.8, SWEET_BERRY_BUSH
+    - BLOCK, 0.8, SWEET_BERRY_BUSH
+    - BLOCK, 0.3, ROSE_BUSH
+    - BLOCK, 0.3, PEONY
+    - BLOCK, 0.3, LILAC
+    - BLOCK, 0.7, GRASS
+    - BLOCK, 0.7, GRASS
+    - BLOCK, 0.7, GRASS
+    - BLOCK, 0.7, GRASS
+    - BLOCK, 0.7, GRASS
+    - BLOCK, 0.7, GRASS
+    - BLOCK, 0.3, TALL_GRASS
+    - BLOCK, 0.3, TALL_GRASS
+    - BLOCK, 0.3, TALL_GRASS
+    - BLOCK, 0.5, FERN
+    only_main_island_structures:
+    - CHEST, 1.0
+    - TREE-1, 0.8
+    - TREE-2, 0.8
+    - TREE-3, 0.8
+    - TREE-1, 0.8
+    - TREE-2, 0.8
+    - BLOCK, 0.8, SWEET_BERRY_BUSH
+    - BLOCK, 0.8, SWEET_BERRY_BUSH
+    - BLOCK, 0.8, SWEET_BERRY_BUSH
+    - BLOCK, 0.3, DANDELION
+    - BLOCK, 0.3, POPPY
+    - BLOCK, 0.3, DANDELION
+    - BLOCK, 0.3, POPPY
+    - BLOCK, 0.5, FERN
+    - BLOCK, 0.2, BLUE_ORCHID
+    - BLOCK, 0.2, ALLIUM
+    - BLOCK, 0.2, AZURE_BLUET
+    - BLOCK, 0.2, RED_TULIP
+    - BLOCK, 0.2, ORANGE_TULIP
+    - BLOCK, 0.2, WHITE_TULIP
+    - BLOCK, 0.2, PINK_TULIP
+    - BLOCK, 0.7, GRASS
+    - BLOCK, 0.7, GRASS
+    - BLOCK, 0.7, GRASS
+    - BLOCK, 0.7, GRASS
+    - BLOCK, 0.7, GRASS
+    - BLOCK, 0.3, TALL_GRASS
+    - BLOCK, 0.3, TALL_GRASS
+    - BLOCK, 0.3, TALL_GRASS
+  10-1:
+    layers:
+      '1':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: END_STONE
+        probs:
+        - 1.0
+      '2':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: END_STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: OBSIDIAN
+        probs:
+        - 1.0
+        - 0.1
+      '3':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: END_STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: OBSIDIAN
+        probs:
+        - 1.0
+        - 0.2
+      '4':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: END_STONE
+        probs:
+        - 1.0
+      '5':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: END_STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: OBSIDIAN
+        probs:
+        - 1.0
+        - 0.3
+      '6':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: END_STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: OBSIDIAN
+        probs:
+        - 1.0
+        - 0.4
+      '7':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: END_STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: OBSIDIAN
+        probs:
+        - 1.0
+        - 0.5
+      '8':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: END_STONE
+        probs:
+        - 1.0
+      '9':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: END_STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: OBSIDIAN
+        probs:
+        - 1.0
+        - 0.6
+      '10':
+        materials:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: END_STONE
+        - ==: org.bukkit.inventory.ItemStack
+          v: 2578
+          type: OBSIDIAN
+        probs:
+        - 1.0
+        - 0.7
+    entities:
+      '1':
+        hp: 100
+        damage: 1.5
+        type: ENDERMAN
+        prob: 1.0
+        abilities: []
+      '2':
+        hp: 100
+        damage: 1.5
+        type: ENDERMAN
+        prob: 1.0
+        abilities: []
+      '3':
+        hp: 200
+        damage: 1.5
+        type: SHULKER
+        prob: 0.8
+        abilities: []
+      '4':
+        hp: 200
+        damage: 1.5
+        type: SHULKER
+        prob: 0.8
+        abilities: []
+      '5':
+        hp: 200
+        damage: 1.5
+        type: ENDERMITE
+        prob: 0.8
+        abilities: []
+    other_structures:
+    - TREE-5, 0.8
+    - TREE-5, 0.8
+    - BLOCK, 0.8, CHORUS_PLANT
+    - BLOCK, 0.8, CHORUS_PLANT
+    - BLOCK, 0.8, CHORUS_PLANT
+    - BLOCK, 0.8, CHORUS_PLANT
+    only_main_island_structures:
+    - CHEST, 1.0
+    - BLOCK, 0.8, CHORUS_PLANT
+    - BLOCK, 0.8, CHORUS_PLANT
+    - BLOCK, 0.8, CHORUS_PLANT
+    - BLOCK, 0.8, CHORUS_PLANT
+    - BLOCK, 0.8, CHORUS_PLANT
+    - BLOCK, 0.8, CHORUS_PLANT
+
+#Тут вы кодируете лут в сундуках на островах соответствующих редкостей, а также стартовый сундук игрока
+#В параметре lore указывается вероятность появления описываемого предмета (например, 70%)
+#Все сундуки, кроме player, нумеруются числом от 1 до 10.
+#При убийстве босса, в зависимости от его сложности, игроку также выпададет дроп отсюда (как в сундуках на островах)
+#
+#ВАЖНО!
+#Если вы переименовали свитки/монеты в файле lang.yml, вам следует их также везде переименовать в config.yml
+chests:
+  player:
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: OAK_SAPLING
+    amount: 4
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 70%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: SPRUCE_SAPLING
+    amount: 4
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 35%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: BIRCH_SAPLING
+    amount: 4
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 30%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: WATER_BUCKET
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 100%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: LAVA_BUCKET
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 100%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: BREAD
+    amount: 24
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 30%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: POTATO
+    amount: 32
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 80%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: CARROT
+    amount: 32
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 80%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: WOODEN_HOE
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 60%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: STONE_HOE
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 10%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: FISHING_ROD
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 20%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: APPLE
+    amount: 17
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 10%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: WOODEN_AXE
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 80%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: STONE_AXE
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 5%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: CHARCOAL
+    amount: 8
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 30%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: WHEAT_SEEDS
+    amount: 16
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 50%
+  '1':
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: IRON_INGOT
+    amount: 8
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 30%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: GOLD_INGOT
+    amount: 8
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 30%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: COAL
+    amount: 16
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 30%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: BONE
+    amount: 8
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 40%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: MELON_SEEDS
+    amount: 12
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 20%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: PUMPKIN_SEEDS
+    amount: 17
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 15%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: STRING
+    amount: 9
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 10%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: COCOA_BEANS
+    amount: 4
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 7%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: WHEAT
+    amount: 16
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 15%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: OAK_BUTTON
+    amount: 10
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      display-name: §6Монета
+      lore:
+      - 90%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: BOW
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 9%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ARROW
+    amount: 16
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 15%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: IRON_LEGGINGS
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 8%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: IRON_BOOTS
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 8%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: IRON_HELMET
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 8%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: IRON_CHESTPLATE
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 8%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: IRON_SWORD
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 7%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: IRON_AXE
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 7%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: SHIELD
+    meta:
+      ==: ItemMeta
+      meta-type: TILE_ENTITY
+      lore:
+      - 4%
+      blockMaterial: SHIELD
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: COBBLESTONE
+    amount: 15
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 15%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: DIRT
+    amount: 20
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 15%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: OAK_LOG
+    amount: 8
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 20%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: SAND
+    amount: 15
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 20%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: BIRCH_SAPLING
+    amount: 4
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 15%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: JUNGLE_SAPLING
+    amount: 4
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 15%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ACACIA_SAPLING
+    amount: 2
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 15%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: DARK_OAK_SAPLING
+    amount: 2
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 15%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: OAK_SAPLING
+    amount: 4
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 15%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: SPRUCE_SAPLING
+    amount: 4
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 15%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: WATER_BUCKET
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 5%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: LAVA_BUCKET
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 5%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: MOJANG_BANNER_PATTERN
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      display-name: §5Мгновенная телепортация на остров
+      lore:
+      - 5%
+  '2':
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: IRON_INGOT
+    amount: 10
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 30%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: SAND
+    amount: 24
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 20%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: GOLD_INGOT
+    amount: 10
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 30%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: COAL
+    amount: 12
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 30%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: BONE
+    amount: 10
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 40%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: MELON_SEEDS
+    amount: 16
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 30%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: PUMPKIN_SEEDS
+    amount: 16
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 25%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: STRING
+    amount: 5
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 15%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: COCOA_BEANS
+    amount: 8
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 14%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: WHEAT
+    amount: 16
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 15%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: OAK_BUTTON
+    amount: 13
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      display-name: §6Монета
+      lore:
+      - 90%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: BOW
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 13%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ARROW
+    amount: 24
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 18%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: IRON_LEGGINGS
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 10%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: IRON_BOOTS
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 10%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: IRON_HELMET
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 10%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: IRON_CHESTPLATE
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 10%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: IRON_SWORD
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 9%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: IRON_AXE
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 9%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: SHIELD
+    meta:
+      ==: ItemMeta
+      meta-type: TILE_ENTITY
+      lore:
+      - 7%
+      blockMaterial: SHIELD
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: COBBLESTONE
+    amount: 32
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 20%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: DIRT
+    amount: 32
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 20%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: OAK_LOG
+    amount: 13
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 20%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: BIRCH_SAPLING
+    amount: 4
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 15%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: JUNGLE_SAPLING
+    amount: 4
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 15%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ACACIA_SAPLING
+    amount: 3
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 15%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: DARK_OAK_SAPLING
+    amount: 2
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 15%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: OAK_SAPLING
+    amount: 4
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 15%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: SPRUCE_SAPLING
+    amount: 2
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 15%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: WATER_BUCKET
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 5%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: LAVA_BUCKET
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 5%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: FLINT
+    amount: 8
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 16%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: DIAMOND
+    amount: 2
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 3%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: SUGAR_CANE
+    amount: 5
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 10%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: BAMBOO
+    amount: 4
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 9%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: REDSTONE
+    amount: 10
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 8%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: OBSIDIAN
+    amount: 2
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 5%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: MOJANG_BANNER_PATTERN
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      display-name: §5Мгновенная телепортация на остров
+      lore:
+      - 15%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: MOJANG_BANNER_PATTERN
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      display-name: §7+0.5 §c§l❤
+      lore:
+      - 2%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: MOJANG_BANNER_PATTERN
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      display-name: §7+0.01 §3§lСилы
+      lore:
+      - 5%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: MOJANG_BANNER_PATTERN
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      display-name: §7+0.01 §f§lЖивучести§7
+      lore:
+      - 5%
+  '3':
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: IRON_INGOT
+    amount: 13
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 30%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: SAND
+    amount: 32
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 25%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: GOLD_INGOT
+    amount: 12
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 30%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: COAL
+    amount: 32
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 30%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: BONE
+    amount: 22
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 40%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: MELON_SEEDS
+    amount: 18
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 30%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: PUMPKIN_SEEDS
+    amount: 16
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 25%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: STRING
+    amount: 9
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 17%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: COCOA_BEANS
+    amount: 5
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 14%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: WHEAT
+    amount: 9
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 15%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: OAK_BUTTON
+    amount: 15
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      display-name: §6Монета
+      lore:
+      - 95%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ARROW
+    amount: 30
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 20%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: IRON_LEGGINGS
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 14%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: IRON_BOOTS
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 14%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: IRON_HELMET
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 14%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: IRON_CHESTPLATE
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 14%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: IRON_SWORD
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 14%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: IRON_AXE
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 13%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: DIAMOND_LEGGINGS
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 4%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: DIAMOND_BOOTS
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 3%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: DIAMOND_HELMET
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 3%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: DIAMOND_CHESTPLATE
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 2%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: DIAMOND_SWORD
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 4%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: DIAMOND_AXE
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 3%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: SHIELD
+    meta:
+      ==: ItemMeta
+      meta-type: TILE_ENTITY
+      lore:
+      - 10%
+      blockMaterial: SHIELD
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: COBBLESTONE
+    amount: 32
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 25%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: DIRT
+    amount: 32
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 25%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: OAK_LOG
+    amount: 16
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 25%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: BIRCH_SAPLING
+    amount: 8
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 15%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: JUNGLE_SAPLING
+    amount: 5
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 15%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ACACIA_SAPLING
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 15%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: DARK_OAK_SAPLING
+    amount: 2
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 15%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: OAK_SAPLING
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 15%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: SPRUCE_SAPLING
+    amount: 5
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 15%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: FLINT
+    amount: 5
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 20%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: DIAMOND
+    amount: 2
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 5%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: SUGAR_CANE
+    amount: 14
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 15%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: BAMBOO
+    amount: 8
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 17%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: REDSTONE
+    amount: 16
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 15%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: OBSIDIAN
+    amount: 5
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 9%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: NAME_TAG
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 15%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: COMPASS
+    amount: 6
+    meta:
+      ==: ItemMeta
+      meta-type: COMPASS
+      lore:
+      - 15%
+      LodestoneTracked: false
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: SADDLE
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 10%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: MOJANG_BANNER_PATTERN
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      display-name: §5Мгновенная телепортация на остров
+      lore:
+      - 20%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: MOJANG_BANNER_PATTERN
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      display-name: §7+0.5 §c§l❤
+      lore:
+      - 5%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: MOJANG_BANNER_PATTERN
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      display-name: §7+0.02 §3§lСилы
+      lore:
+      - 9%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: MOJANG_BANNER_PATTERN
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      display-name: §7+0.02 §f§lЖивучести§7
+      lore:
+      - 9%
+  '4':
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: IRON_INGOT
+    amount: 17
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 30%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: SAND
+    amount: 32
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 30%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: GOLD_INGOT
+    amount: 14
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 25%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: COAL
+    amount: 32
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 30%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: OAK_BUTTON
+    amount: 18
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      display-name: §6Монета
+      lore:
+      - 95%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: DIAMOND_CHESTPLATE
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 5%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: DIAMOND_HELMET
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 5%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: DIAMOND_BOOTS
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 5%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: DIAMOND_LEGGINGS
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 5%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: DIAMOND_SWORD
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 7%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: DIAMOND_AXE
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 6%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: DIAMOND_PICKAXE
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 8%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: COBBLESTONE
+    amount: 32
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 40%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: DIRT
+    amount: 32
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 40%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: OAK_LOG
+    amount: 16
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 40%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: FLINT
+    amount: 32
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 15%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: DIAMOND
+    amount: 4
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 10%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: SUGAR_CANE
+    amount: 16
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 12%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: BAMBOO
+    amount: 35
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 10%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: REDSTONE
+    amount: 15
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 20%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: OBSIDIAN
+    amount: 8
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 16%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: NAME_TAG
+    amount: 2
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 15%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: COMPASS
+    amount: 4
+    meta:
+      ==: ItemMeta
+      meta-type: COMPASS
+      lore:
+      - 10%
+      LodestoneTracked: false
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: SADDLE
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 20%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 4%
+      stored-enchants:
+        PROTECTION_ENVIRONMENTAL: 1
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 2%
+      stored-enchants:
+        PROTECTION_ENVIRONMENTAL: 2
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 2%
+      stored-enchants:
+        DIG_SPEED: 1
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 5%
+      stored-enchants:
+        DURABILITY: 1
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: MOJANG_BANNER_PATTERN
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      display-name: §5Мгновенная телепортация на остров
+      lore:
+      - 30%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: MOJANG_BANNER_PATTERN
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      display-name: §7+0.5 §c§l❤
+      lore:
+      - 7%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: MOJANG_BANNER_PATTERN
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      display-name: §7+0.03 §3§lСилы
+      lore:
+      - 10%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: MOJANG_BANNER_PATTERN
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      display-name: §7+0.03 §f§lЖивучести§7
+      lore:
+      - 10%
+  '5':
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: IRON_INGOT
+    amount: 20
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 35%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: SAND
+    amount: 32
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 50%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: GOLD_INGOT
+    amount: 32
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 25%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: OAK_BUTTON
+    amount: 24
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      display-name: §6Монета
+      lore:
+      - 95%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: DIAMOND_CHESTPLATE
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 9%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: DIAMOND_HELMET
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 10%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: DIAMOND_BOOTS
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 10%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: DIAMOND_LEGGINGS
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 10%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: DIAMOND_SWORD
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 10%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: DIAMOND_AXE
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 10%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: DIAMOND_PICKAXE
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 10%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: COBBLESTONE
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 40%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: DIRT
+    amount: 6
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 40%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: OAK_LOG
+    amount: 14
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 50%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: DIAMOND
+    amount: 8
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 20%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: REDSTONE
+    amount: 5
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 25%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: OBSIDIAN
+    amount: 3
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 20%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: SADDLE
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 20%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: GOLDEN_APPLE
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 10%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENDER_PEARL
+    amount: 2
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 8%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: EMERALD
+    amount: 7
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 15%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: CROSSBOW
+    meta:
+      ==: ItemMeta
+      meta-type: CROSSBOW
+      lore:
+      - 6%
+      charged: false
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: NETHER_WART
+    amount: 5
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 15%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: BLAZE_ROD
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 10%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 8%
+      stored-enchants:
+        PROTECTION_ENVIRONMENTAL: 1
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 5%
+      stored-enchants:
+        PROTECTION_ENVIRONMENTAL: 2
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 2%
+      stored-enchants:
+        PROTECTION_ENVIRONMENTAL: 3
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 8%
+      stored-enchants:
+        DIG_SPEED: 1
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 4%
+      stored-enchants:
+        DIG_SPEED: 2
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 12%
+      stored-enchants:
+        DURABILITY: 1
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 6%
+      stored-enchants:
+        DURABILITY: 2
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 1%
+      stored-enchants:
+        DURABILITY: 3
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: MOJANG_BANNER_PATTERN
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      display-name: §5Мгновенная телепортация на остров
+      lore:
+      - 50%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: MOJANG_BANNER_PATTERN
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      display-name: §7+0.5 §c§l❤
+      lore:
+      - 8%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: MOJANG_BANNER_PATTERN
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      display-name: §7+0.03 §3§lСилы
+      lore:
+      - 13%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: MOJANG_BANNER_PATTERN
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      display-name: §7+0.03 §f§lЖивучести§7
+      lore:
+      - 13%
+  '6':
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: IRON_INGOT
+    amount: 25
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 40%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: GOLD_INGOT
+    amount: 24
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 40%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: OAK_BUTTON
+    amount: 28
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      display-name: §6Монета
+      lore:
+      - 95%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: DIAMOND_CHESTPLATE
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 14%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: DIAMOND_HELMET
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 15%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: DIAMOND_BOOTS
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 15%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: DIAMOND_LEGGINGS
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 15%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: DIAMOND_SWORD
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 16%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: DIAMOND_AXE
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 16%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: DIAMOND_PICKAXE
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 16%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: MAGMA_BLOCK
+    amount: 12
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 12%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: QUARTZ
+    amount: 32
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 20%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: CRIMSON_STEM
+    amount: 24
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 25%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: WARPED_STEM
+    amount: 6
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 25%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: DIAMOND
+    amount: 6
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 30%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: OBSIDIAN
+    amount: 9
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 30%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: GOLDEN_APPLE
+    amount: 4
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 20%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENDER_PEARL
+    amount: 3
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 15%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: EMERALD
+    amount: 4
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 20%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: CROSSBOW
+    meta:
+      ==: ItemMeta
+      meta-type: CROSSBOW
+      lore:
+      - 18%
+      charged: false
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: NETHER_WART
+    amount: 38
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 40%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: BLAZE_ROD
+    amount: 5
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 20%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 12%
+      stored-enchants:
+        PROTECTION_ENVIRONMENTAL: 1
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 8%
+      stored-enchants:
+        PROTECTION_ENVIRONMENTAL: 2
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 6%
+      stored-enchants:
+        PROTECTION_ENVIRONMENTAL: 3
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 12%
+      stored-enchants:
+        DIG_SPEED: 1
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 8%
+      stored-enchants:
+        DIG_SPEED: 2
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 16%
+      stored-enchants:
+        DURABILITY: 1
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 10%
+      stored-enchants:
+        DURABILITY: 2
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 5%
+      stored-enchants:
+        DURABILITY: 3
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 7%
+      stored-enchants:
+        PROTECTION_FALL: 1
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 7%
+      stored-enchants:
+        PROTECTION_FIRE: 1
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 7%
+      stored-enchants:
+        PROTECTION_PROJECTILE: 1
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: MOJANG_BANNER_PATTERN
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      display-name: §5Мгновенная телепортация на остров
+      lore:
+      - 70%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: MOJANG_BANNER_PATTERN
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      display-name: §7+0.5 §c§l❤
+      lore:
+      - 10%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: MOJANG_BANNER_PATTERN
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      display-name: §7+0.03 §3§lСилы
+      lore:
+      - 15%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: MOJANG_BANNER_PATTERN
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      display-name: §7+0.03 §f§lЖивучести§7
+      lore:
+      - 15%
+  '7':
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: IRON_INGOT
+    amount: 24
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 50%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: GOLD_INGOT
+    amount: 24
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 50%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: OAK_BUTTON
+    amount: 30
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      display-name: §6Монета
+      lore:
+      - 95%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: DIAMOND_CHESTPLATE
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 20%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: DIAMOND_HELMET
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 20%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: DIAMOND_BOOTS
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 20%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: DIAMOND_LEGGINGS
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 20%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: DIAMOND_SWORD
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 23%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: DIAMOND_AXE
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 20%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: DIAMOND_PICKAXE
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 23%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: QUARTZ
+    amount: 32
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 50%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: CRIMSON_STEM
+    amount: 32
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 40%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: WARPED_STEM
+    amount: 32
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 40%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: DIAMOND
+    amount: 5
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 45%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: OBSIDIAN
+    amount: 8
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 45%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: GOLDEN_APPLE
+    amount: 2
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 40%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: GOLDEN_CARROT
+    amount: 10
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 25%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENDER_PEARL
+    amount: 2
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 30%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: EMERALD
+    amount: 10
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 40%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: NETHERITE_SCRAP
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 15%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: BLAZE_ROD
+    amount: 2
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 20%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: GLOWSTONE_DUST
+    amount: 12
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 40%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: GHAST_TEAR
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 10%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: NETHER_WART
+    amount: 6
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 30%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 16%
+      stored-enchants:
+        PROTECTION_ENVIRONMENTAL: 1
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 12%
+      stored-enchants:
+        PROTECTION_ENVIRONMENTAL: 2
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 10%
+      stored-enchants:
+        PROTECTION_ENVIRONMENTAL: 3
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 16%
+      stored-enchants:
+        DIG_SPEED: 1
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 12%
+      stored-enchants:
+        DIG_SPEED: 2
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 20%
+      stored-enchants:
+        DURABILITY: 1
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 14%
+      stored-enchants:
+        DURABILITY: 2
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 9%
+      stored-enchants:
+        DURABILITY: 3
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 5%
+      stored-enchants:
+        FIRE_ASPECT: 1
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 15%
+      stored-enchants:
+        ARROW_DAMAGE: 1
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 6%
+      stored-enchants:
+        ARROW_DAMAGE: 2
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 8%
+      stored-enchants:
+        KNOCKBACK: 1
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 4%
+      stored-enchants:
+        MULTISHOT: 1
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 12%
+      stored-enchants:
+        PROTECTION_FALL: 1
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 12%
+      stored-enchants:
+        PROTECTION_FIRE: 1
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 12%
+      stored-enchants:
+        PROTECTION_PROJECTILE: 1
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: MOJANG_BANNER_PATTERN
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      display-name: §5Мгновенная телепортация на остров
+      lore:
+      - 75%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: MOJANG_BANNER_PATTERN
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      display-name: §7+0.5 §c§l❤
+      lore:
+      - 11%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: MOJANG_BANNER_PATTERN
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      display-name: §7+0.04 §3§lСилы
+      lore:
+      - 15%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: MOJANG_BANNER_PATTERN
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      display-name: §7+0.04 §f§lЖивучести§7
+      lore:
+      - 15%
+  '8':
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: IRON_INGOT
+    amount: 32
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 70%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: GOLD_INGOT
+    amount: 32
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 70%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: OAK_BUTTON
+    amount: 32
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      display-name: §6Монета
+      lore:
+      - 95%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: QUARTZ
+    amount: 32
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 50%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: CRIMSON_STEM
+    amount: 32
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 50%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: WARPED_STEM
+    amount: 32
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 50%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: DIAMOND
+    amount: 8
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 50%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: GOLDEN_APPLE
+    amount: 3
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 50%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: GOLDEN_CARROT
+    amount: 17
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 40%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENDER_PEARL
+    amount: 4
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 50%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: EMERALD
+    amount: 16
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 50%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: NETHERITE_SCRAP
+    amount: 2
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 50%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: BLAZE_ROD
+    amount: 12
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 35%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: GLOWSTONE_DUST
+    amount: 25
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 50%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: GHAST_TEAR
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 50%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: NETHER_WART
+    amount: 24
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 40%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 20%
+      stored-enchants:
+        PROTECTION_ENVIRONMENTAL: 2
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 14%
+      stored-enchants:
+        PROTECTION_ENVIRONMENTAL: 3
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 20%
+      stored-enchants:
+        DIG_SPEED: 2
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 13%
+      stored-enchants:
+        DIG_SPEED: 3
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 4%
+      stored-enchants:
+        DIG_SPEED: 4
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 25%
+      stored-enchants:
+        DURABILITY: 2
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 12%
+      stored-enchants:
+        DURABILITY: 3
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 15%
+      stored-enchants:
+        FIRE_ASPECT: 1
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 20%
+      stored-enchants:
+        ARROW_DAMAGE: 2
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 13%
+      stored-enchants:
+        ARROW_DAMAGE: 3
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 5%
+      stored-enchants:
+        ARROW_DAMAGE: 4
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 8%
+      stored-enchants:
+        MULTISHOT: 1
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 17%
+      stored-enchants:
+        PROTECTION_FALL: 1
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 6%
+      stored-enchants:
+        PROTECTION_FALL: 2
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 12%
+      stored-enchants:
+        PROTECTION_FIRE: 2
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 12%
+      stored-enchants:
+        PROTECTION_PROJECTILE: 2
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 12%
+      stored-enchants:
+        MENDING: 1
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 10%
+      stored-enchants:
+        PIERCING: 1
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: MOJANG_BANNER_PATTERN
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      display-name: §5Мгновенная телепортация на остров
+      lore:
+      - 85%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: MOJANG_BANNER_PATTERN
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      display-name: §7+0.5 §c§l❤
+      lore:
+      - 15%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: MOJANG_BANNER_PATTERN
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      display-name: §7+0.05 §3§lСилы
+      lore:
+      - 16%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: MOJANG_BANNER_PATTERN
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      display-name: §7+0.05 §f§lЖивучести§7
+      lore:
+      - 16%
+  '9':
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: OAK_BUTTON
+    amount: 32
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      display-name: §6Монета
+      lore:
+      - 100%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: CHORUS_FRUIT
+    amount: 8
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 50%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: DIAMOND
+    amount: 8
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 70%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: GOLDEN_APPLE
+    amount: 5
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 60%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_GOLDEN_APPLE
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 8%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: GOLDEN_CARROT
+    amount: 32
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 60%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENDER_PEARL
+    amount: 6
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 60%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: NETHERITE_SCRAP
+    amount: 4
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 60%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: BLAZE_ROD
+    amount: 20
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 60%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: GHAST_TEAR
+    amount: 2
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 40%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ELYTRA
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 3%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: TOTEM_OF_UNDYING
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 8%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: TRIDENT
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 2%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 20%
+      stored-enchants:
+        PROTECTION_ENVIRONMENTAL: 2
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 14%
+      stored-enchants:
+        PROTECTION_ENVIRONMENTAL: 3
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 20%
+      stored-enchants:
+        DIG_SPEED: 2
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 13%
+      stored-enchants:
+        DIG_SPEED: 3
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 4%
+      stored-enchants:
+        DIG_SPEED: 4
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 25%
+      stored-enchants:
+        DURABILITY: 2
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 20%
+      stored-enchants:
+        DURABILITY: 3
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 15%
+      stored-enchants:
+        FIRE_ASPECT: 2
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 20%
+      stored-enchants:
+        ARROW_DAMAGE: 2
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 16%
+      stored-enchants:
+        ARROW_DAMAGE: 3
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 10%
+      stored-enchants:
+        ARROW_DAMAGE: 4
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 10%
+      stored-enchants:
+        MULTISHOT: 1
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 12%
+      stored-enchants:
+        PROTECTION_FALL: 2
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 18%
+      stored-enchants:
+        PROTECTION_FIRE: 2
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 8%
+      stored-enchants:
+        LOYALTY: 1
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 12%
+      stored-enchants:
+        ARROW_INFINITE: 1
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 20%
+      stored-enchants:
+        ARROW_DAMAGE: 2
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 13%
+      stored-enchants:
+        ARROW_DAMAGE: 3
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 5%
+      stored-enchants:
+        ARROW_DAMAGE: 4
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 8%
+      stored-enchants:
+        MULTISHOT: 1
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 17%
+      stored-enchants:
+        PROTECTION_FALL: 1
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 6%
+      stored-enchants:
+        PROTECTION_FALL: 2
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 12%
+      stored-enchants:
+        PROTECTION_FIRE: 2
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 12%
+      stored-enchants:
+        PROTECTION_PROJECTILE: 2
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 12%
+      stored-enchants:
+        MENDING: 1
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 10%
+      stored-enchants:
+        PIERCING: 1
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: MOJANG_BANNER_PATTERN
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      display-name: §5Мгновенная телепортация на остров
+      lore:
+      - 95%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: MOJANG_BANNER_PATTERN
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      display-name: §7+0.5 §c§l❤
+      lore:
+      - 25%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: MOJANG_BANNER_PATTERN
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      display-name: §7+0.05 §3§lСилы
+      lore:
+      - 35%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: MOJANG_BANNER_PATTERN
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      display-name: §7+0.05 §f§lЖивучести§7
+      lore:
+      - 35%
+  '10':
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: OAK_BUTTON
+    amount: 32
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      display-name: §6Монета
+      lore:
+      - 100%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: CHORUS_FRUIT
+    amount: 16
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 50%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: DIAMOND
+    amount: 12
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 80%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: GOLDEN_APPLE
+    amount: 8
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 80%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_GOLDEN_APPLE
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 20%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: GOLDEN_CARROT
+    amount: 32
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 80%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENDER_PEARL
+    amount: 8
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 80%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: NETHERITE_SCRAP
+    amount: 6
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 90%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: BLAZE_ROD
+    amount: 24
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 60%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: GHAST_TEAR
+    amount: 3
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 70%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ELYTRA
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 5%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: TOTEM_OF_UNDYING
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 40%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: TRIDENT
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      lore:
+      - 4%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 80%
+      stored-enchants:
+        PROTECTION_ENVIRONMENTAL: 2
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 60%
+      stored-enchants:
+        PROTECTION_ENVIRONMENTAL: 3
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 40%
+      stored-enchants:
+        DIG_SPEED: 2
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 30%
+      stored-enchants:
+        DIG_SPEED: 3
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 20%
+      stored-enchants:
+        DIG_SPEED: 4
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 90%
+      stored-enchants:
+        DURABILITY: 2
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 70%
+      stored-enchants:
+        DURABILITY: 3
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 70%
+      stored-enchants:
+        FIRE_ASPECT: 2
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 50%
+      stored-enchants:
+        ARROW_DAMAGE: 2
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 20%
+      stored-enchants:
+        ARROW_DAMAGE: 3
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 10%
+      stored-enchants:
+        ARROW_DAMAGE: 4
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 30%
+      stored-enchants:
+        MULTISHOT: 1
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 12%
+      stored-enchants:
+        PROTECTION_FALL: 2
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 18%
+      stored-enchants:
+        PROTECTION_FIRE: 2
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 15%
+      stored-enchants:
+        LOYALTY: 1
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 30%
+      stored-enchants:
+        ARROW_INFINITE: 1
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 20%
+      stored-enchants:
+        ARROW_DAMAGE: 2
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 13%
+      stored-enchants:
+        ARROW_DAMAGE: 3
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 5%
+      stored-enchants:
+        ARROW_DAMAGE: 4
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 17%
+      stored-enchants:
+        PROTECTION_FALL: 1
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 6%
+      stored-enchants:
+        PROTECTION_FALL: 2
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 12%
+      stored-enchants:
+        PROTECTION_FIRE: 2
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 12%
+      stored-enchants:
+        PROTECTION_PROJECTILE: 2
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 40%
+      stored-enchants:
+        MENDING: 1
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: ENCHANTED
+      lore:
+      - 10%
+      stored-enchants:
+        PIERCING: 1
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: MOJANG_BANNER_PATTERN
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      display-name: §5Мгновенная телепортация на остров
+      lore:
+      - 100%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: MOJANG_BANNER_PATTERN
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      display-name: §7+0.5 §c§l❤
+      lore:
+      - 100%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: MOJANG_BANNER_PATTERN
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      display-name: §7+0.05 §3§lСилы
+      lore:
+      - 80%
+  - ==: org.bukkit.inventory.ItemStack
+    v: 2578
+    type: MOJANG_BANNER_PATTERN
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      display-name: §7+0.05 §f§lЖивучести§7
+      lore:
+      - 80%

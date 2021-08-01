@@ -1,0 +1,14 @@
+name: SkyBlockMeow
+main: argento.murder.Main
+version: 1.0
+api-version: 1.13
+author: Argento
+depend: [Vault]
+softdepend: [Vault]
+commands:
+  skyblock:
+    aliases: [sb]
+  dis:
+  getblock:
+  suicide:
+  bedtp:
