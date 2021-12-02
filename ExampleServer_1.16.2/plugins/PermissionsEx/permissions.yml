@@ -1,0 +1,85 @@
+groups:
+  player:
+    options:
+      default: true
+    permissions:
+    - API.player
+  vip:
+    options:
+      default: false
+    inheritance:
+    - player
+    permissions:
+    - API.vip
+    - crazyauctions.sell.12
+  vip+:
+    options:
+      default: false
+    inheritance:
+    - vip
+    permissions:
+    - API.vip+
+    - crazyauctions.bid
+    - crazyauctions.sell.15
+    - crazyauctions.bid.5
+  mvp:
+    options:
+      default: false
+    inheritance:
+    - vip+
+    permissions:
+    - API.mvp
+    - crazyauctions.sell.18
+    - crazyauctions.bid.7
+  mvp+:
+    options:
+      default: false
+    inheritance:
+    - mvp
+    permissions:
+    - API.mvp+
+    - crazyauctions.sell.20
+    - crazyauctions.bid.10
+  premium:
+    options:
+      default: false
+    inheritance:
+    - mvp+
+    permissions:
+    - API.premium
+    - crazyauctions.sell.25
+    - crazyauctions.bid.15
+  youtube:
+    options:
+      default: false
+    inheritance:
+    - premium
+    permissions:
+    - API.youtube
+  helper:
+    options:
+      default: false
+    inheritance:
+    - premium
+    permissions:
+    - API.helper
+  moder:
+    options:
+      default: false
+    inheritance:
+    - helper
+    permissions:
+    - API.moder
+  admin:
+    options:
+      default: false
+    inheritance:
+    - moder
+    permissions:
+    - API.admin
+  glav:
+    options:
+      default: false
+    permissions:
+    - '*'
+schema-version: 1

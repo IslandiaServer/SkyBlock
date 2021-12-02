@@ -1,0 +1,12 @@
+Test:
+  ==: org.bukkit.inventory.ItemStack
+  v: 2578
+  type: WRITTEN_BOOK
+  meta:
+    ==: ItemMeta
+    meta-type: BOOK_SIGNED
+    title: Корды аргента
+    author: Gentor1
+    pages:
+    - |
+      я знаю что ты хочешь дать ему по Ёбалу
