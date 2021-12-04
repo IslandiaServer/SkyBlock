@@ -1,5 +1,6 @@
 # SkyBlock (bad code style, my old plugin)  
- Minecraft SkyBlock plugin 1.16+
+ Minecraft SkyBlock plugin 1.16+  
+ SpigotMC: https://www.spigotmc.org/resources/skyblockmeow.94905/  
 
 <b>Features:</b>
 - Every island will be generated with some random, so most players have different island at start
